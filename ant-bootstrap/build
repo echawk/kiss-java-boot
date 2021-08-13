@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+export JAVA_HOME=/usr/bin/jamvm
+export JAVACMD=/usr/bin/jikes
+export CLASSPATH=/usr/lib/rt.jar
+
+export ANT_OPTS="-Dbuild.compiler=jikes"
+export BOOTJAVAC_OPTS="-nowarn"
+
