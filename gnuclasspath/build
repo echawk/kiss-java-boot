@@ -21,3 +21,4 @@ JAVAC=/usr/bin/jikes \
 	--with-jikes
 make
 make install
+make install-data
