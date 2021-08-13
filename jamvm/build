@@ -2,9 +2,11 @@
 # musl doesn't have the fpu_control header files, so
 # instead we just copy in glibc's header file directly
 # into the source directory
-cp files/fpu_control.h src/os/linux/x86_64/
-sed "s/<fpu_control.h>/\"fpu_control.h\"/" src/os/linux/x86_64/init.c > _
-mv _ src/os/linux/x86_64/init.c
+kiss l musl && {
+	cp files/fpu_control.h src/os/linux/x86_64/
+	sed "s/<fpu_control.h>/\"fpu_control.h\"/" src/os/linux/x86_64/init.c > _
+	mv _ src/os/linux/x86_64/init.c
+}
 
 # Remove precompiled classes
 rm lib/classes.zip
