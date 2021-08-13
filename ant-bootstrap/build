@@ -4,7 +4,7 @@
 sed "s/depends=\"jars,test-jar\"/depends=\"jars\"/" build.xml > _
 mv _ build.xml
 
-export JAVA_HOME="/usr"
+#export JAVA_HOME="/usr"
 export JAVACMD="/usr/bin/jamvm"
 export JAVAC="/usr/bin/jikes"
 export CLASSPATH="/usr/lib/rt.jar"
@@ -15,5 +15,5 @@ mkdir tmp
 export HOME="tmp"
 touch tmp/.ant.properties
 
-mkdir out
-sh -x bootstrap.sh -Ddist.dir=out
+sh -x bootstrap.sh -Ddist.dir=out #-Dbuild.dir=build
+# Current error is with build.xml ; it fails on line 1070 and 558
