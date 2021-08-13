@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+:> nostrip # just in case
+
+JAVAC=/usr/bin/jikes \
+	./configure \
+	--prefix=/usr \
+	--disable-Werror \
+	--disable-gmp \
+	--disable-gtk-peer \
+	--disable-gconf-peer \
+	--disable-plugin \
+	--disable-dssi \
+	--disable-alsa \
+	--disable-gjdoc \
+	--with-jikes
+make
+make install
