@@ -1,1 +1,2 @@
 ftp://ftp.gnu.org/gnu/classpath/classpath-0.93.tar.gz
+patches/remove-call-to-free.patch

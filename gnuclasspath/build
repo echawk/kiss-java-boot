@@ -2,6 +2,11 @@
 
 :> nostrip # just in case
 
+for patch in *.patch
+do
+	patch -p1 < $patch
+done
+
 JAVAC=/usr/bin/jikes \
 	./configure \
 	--prefix=/usr \

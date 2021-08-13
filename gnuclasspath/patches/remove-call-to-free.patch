@@ -1,0 +1,13 @@
+diff --git a/native/jni/java-io/java_io_VMFile.c b/native/jni/java-io/java_io_VMFile.c
+index de1320b..2740dc0 100644
+--- a/native/jni/java-io/java_io_VMFile.c
++++ b/native/jni/java-io/java_io_VMFile.c
+@@ -250,7 +250,7 @@ Java_java_io_VMFile_exists (JNIEnv * env,
+     }
+ 
+   result = cpio_isFileExists (filename);
+-  (*env)->ReleaseStringUTFChars (env, name, filename);
++  //(*env)->ReleaseStringUTFChars (env, name, filename);
+ 
+   return result == CPNATIVE_OK ? 1 : 0;
+ #else /* not WITHOUT_FILESYSTEM */
