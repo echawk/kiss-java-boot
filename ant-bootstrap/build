@@ -1,9 +1,19 @@
 #!/bin/sh -e
 
-export JAVA_HOME=/usr/bin/jamvm
-export JAVACMD=/usr/bin/jikes
-export CLASSPATH=/usr/lib/rt.jar
+#patch -p1 < fix-jamvm-freeze.patch
+sed "s/depends=\"jars,test-jar\"/depends=\"jars\"/" build.xml > _
+mv _ build.xml
 
+export JAVA_HOME="/usr"
+export JAVACMD="/usr/bin/jamvm"
+export JAVAC="/usr/bin/jikes"
+export CLASSPATH="/usr/lib/rt.jar"
 export ANT_OPTS="-Dbuild.compiler=jikes"
 export BOOTJAVAC_OPTS="-nowarn"
 
+mkdir tmp
+export HOME="tmp"
+touch tmp/.ant.properties
+
+mkdir out
+sh -x bootstrap.sh -Ddist.dir=out

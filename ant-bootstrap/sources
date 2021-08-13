@@ -1,1 +1,2 @@
 https://archive.apache.org/dist/ant/source/apache-ant-1.8.4-src.tar.bz2
+patches/fix-jamvm-freeze.patch
