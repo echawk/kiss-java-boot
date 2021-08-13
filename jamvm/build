@@ -6,15 +6,14 @@ cp files/fpu_control.h src/os/linux/x86_64/
 sed "s/<fpu_control.h>/\"fpu_control.h\"/" src/os/linux/x86_64/init.c > _
 mv _ src/os/linux/x86_64/init.c
 
-rm lib/classes.zip # Current bug is here; I want to use the GNU classpath, however
-                   # when I feed the directory below to configure, it seems to
-                   # ignore it and look under /usr/local/classpath instead
+# Remove precompiled classes
+rm lib/classes.zip
 
 ./configure \
 	--prefix=/usr \
 	--disable-int-caching \
 	--enable-runtime-reloc-checks \
-	--with-classpath-installdir=/usr/lib/classpath \
+	--with-classpath-install-dir=/usr \
 	--enable-ffi
 
 make
