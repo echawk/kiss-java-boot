@@ -17,3 +17,5 @@ touch tmp/.ant.properties
 
 sh -x bootstrap.sh -Ddist.dir=out #-Dbuild.dir=build
 # Current error is with build.xml ; it fails on line 1070 and 558
+tree out
+out/bin/ant
