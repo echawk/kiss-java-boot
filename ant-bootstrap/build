@@ -8,7 +8,7 @@ mv _ build.xml
 export JAVACMD="/usr/bin/jamvm"
 export JAVAC="/usr/bin/jikes"
 export CLASSPATH="/usr/lib/rt.jar"
-export ANT_OPTS="-Dbuild.compiler=jikes"
+export ANT_OPTS="-Dbuild.compiler=jikes -Xnocompact -Xnoinlining"
 export BOOTJAVAC_OPTS="-nowarn"
 
 mkdir tmp
@@ -18,4 +18,16 @@ touch tmp/.ant.properties
 sh -x bootstrap.sh -Ddist.dir=out #-Dbuild.dir=build
 # Current error is with build.xml ; it fails on line 1070 and 558
 tree out
-out/bin/ant
+false && {
+out/bin/ant -Ddist.dir="$1/usr" jars
+out/bin/ant -Ddist.dir="$1/usr" dist
+
+mkdir -p "$1/etc/profile.d"
+cat <<EOF > $1/etc/profile.d/apache-ant.sh
+export PATH=\$PATH:/usr/share/apache-ant/bin
+export ANT_HOME=\${ANT_HOME:-/usr/share/apache-ant}
+EOF
+
+rm -- $1/usr/bin/*.bat
+rm -- $1/usr/bin/*.cmd
+}
