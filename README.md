@@ -13,9 +13,7 @@ The following are currently packaged:
 The following are WIP:
 * ant (1.8.4)
 
-~~
-Once jamvm 1.5.1 is packaged, the initial bootstap jdk will be complete.
-This should allow us to continue following the same chain that guix uses.~~
+~~Once jamvm 1.5.1 is packaged, the initial bootstap jdk will be complete. This should allow us to continue following the same chain that guix uses.~~
 
 jamvm is now packged, so work will be on ant (1.8.4). Once this is working, we will be able to move onto bootstrapping ecj (3.2.2).
 
