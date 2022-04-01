@@ -25,3 +25,26 @@ that consists of jikes@1.22, gnuclasspath@0.93, and jamvm@1.5.1.
 
 If you have any experience or are able to get a package to compile, please submit a PR or issue!
 Any and all help is appreciated!
+
+# Installation
+
+The process for installation is almost entirely manual, and I do *not* recommend
+you place any of these repos in your `KISS_PATH`, since this repo is strictly
+intended to be a testing ground and serve as a way to get java binaries starting
+from only source code.
+
+## JDK 0
+
+These are the three components:
+
+* jikes - java compiler
+* gnuclasspath - java standard library
+* jamvm - java virtual machine
+
+To build & Install:
+```shell
+cd jdk0
+export KISS_PATH="$PWD:$KISS_PATH"
+kiss build jikes gnuclasspath jamvm
+```
+
