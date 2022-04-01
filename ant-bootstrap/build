@@ -1,6 +1,5 @@
 #!/bin/sh -e
 
-#patch -p1 < fix-jamvm-freeze.patch
 sed "s/depends=\"jars,test-jar\"/depends=\"jars\"/" build.xml > _
 mv _ build.xml
 
