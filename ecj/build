@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+unzip *.zip*
+ls -lah
+
+cat <<EOF > manifest
+Manifest-Version: 1.0
+Main-Class: org.eclipse.jdt.internal.compiler.batch.Main\n
+EOF
+
+export CLASSPATH="$(kiss manifest ant-bootstrap | grep lib | grep jar$ | tr '\n' ':'):/usr/lib/rt.jar"
+
+jikes $(find . -type f -name *.java)
+
+fastjar cvfm ecj-bootstrap.jar manifest .
+
+ls -alh
+
+false
