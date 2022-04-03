@@ -3,7 +3,7 @@
 sed "s/depends=\"jars,test-jar\"/depends=\"jars\"/" build.xml > _
 mv _ build.xml
 
-#export JAVA_HOME="/usr"
+export JAVA_HOME="/usr"
 export JAVACMD="/usr/bin/jamvm"
 export JAVAC="/usr/bin/jikes"
 export CLASSPATH="/usr/lib/rt.jar"
@@ -14,19 +14,28 @@ mkdir tmp
 export HOME="tmp"
 touch tmp/.ant.properties
 
-sh -x bootstrap.sh -Ddist.dir=out #-Dbuild.dir=build
-# Current error is with build.xml ; it fails on line 1070 and 558
-tree out
-false && {
-out/bin/ant -Ddist.dir="$1/usr" jars
-out/bin/ant -Ddist.dir="$1/usr" dist
+sh bootstrap.sh -Ddist.dir=boot
 
-mkdir -p "$1/etc/profile.d"
-cat <<EOF > $1/etc/profile.d/apache-ant.sh
+# Use bootstrapped ant to build jars & dist.
+boot/bin/ant -Ddist.dir="junk" jars
+boot/bin/ant -Ddist.dir="junk" dist
+
+# Remove manuals & Windows stuff.
+rm -rf junk/manual
+rm -rf junk/bin/*.cmd
+rm -rf junk/bin/*.bat
+
+mkdir -p "$1/usr/share/apache-ant"
+cp -r junk/* "$1/usr/share/apache-ant"
+
+# Make the new execuatables available in PATH & set ANT_HOME.
+mkdir -p   "$1/etc/profile.d"
+cat <<EOF > $1/etc/profile.d/apache-ant-bootstrap.sh
+#!/bin/sh
 export PATH=\$PATH:/usr/share/apache-ant/bin
 export ANT_HOME=\${ANT_HOME:-/usr/share/apache-ant}
+export JAVA_HOME=\${JAVA_HOME:-/usr}
+export JAVACMD="/usr/bin/jamvm"
+export JAVAC="/usr/bin/jikes"
+export CLASSPATH="/usr/lib/rt.jar"
 EOF
-
-rm -- $1/usr/bin/*.bat
-rm -- $1/usr/bin/*.cmd
-}
