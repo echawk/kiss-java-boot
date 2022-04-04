@@ -13,7 +13,7 @@ java="${JAVACMD:-/usr/bin/jamvm}"
 
 args=""
 
-if [ -z $@ ]; then
+if [ $# -lt 1 ]; then
     printf "javac: no arguments given!\n"
     exit
 fi
