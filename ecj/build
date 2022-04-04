@@ -14,6 +14,5 @@ jikes $(find . -type f -name *.java)
 
 fastjar cvfm ecj-bootstrap.jar manifest .
 
-ls -alh
-
-false
+mkdir -p "$1/usr/share/java/"
+cp ecj-bootstrap.jar "$1/usr/share/java/"
