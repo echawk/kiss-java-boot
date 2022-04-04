@@ -37,9 +37,11 @@ from only source code.
 
 These are the three components:
 
-* jikes - java compiler
-* gnuclasspath - java standard library
-* jamvm - java virtual machine
+software     | version | desc
+--------:    |--------:|-----:
+jikes        | 1.22    | Java Compiler
+gnuclasspath | 0.93    | Java Standard Library
+jamvm        | 1.5.1   | Java Virtual Machine
 
 To build & Install:
 ```shell
