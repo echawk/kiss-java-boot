@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 bootcp="/usr/share/classpath/tools.zip"
 bootcp="$bootcp:/usr/share/classpath/glibj.zip"
@@ -13,47 +13,31 @@ java="${JAVACMD:-/usr/bin/jamvm}"
 
 args=""
 
-if [ -n "$@" ]; then
+if [ -z $@ ]; then
+    printf "javac: no arguments given!\n"
+    exit
+fi
 
-for arg in $@; do
+for arg in $(echo $@ | sed 's/ -/#-/g' | tr '#' '\n' | grep -v -e '^-J' | sed "s/ /#/g"); do
     case $arg in
-        -J) shift ;;
-        -cp)
-            _cp="$2"
-            shift
-            shift
-            ;;
-        -source)
-            source="$2"
-            shift
-            shift
-            ;;
-        -target)
-            target="$2"
-            shift
-            shift
-            ;;
-        -bootclasspath)
-            bootcp="$2"
-            shift
-            shift
-            ;;
-        *)
-            args="$args $arg"
-            shift
-            ;;
+        -source*)    source="$(echo $arg | cut -d'#' -f2)";;
+        -target*)    target="$(echo $arg | cut -d'#' -f2)";;
+        -classpath*) bootcp="$bootcp:$(echo $arg | cut -d'#' -f2)";;
+        -cp) _cp="$(echo $arg | cut -d'#' -f2)";;
+        -bootclasspath*);;
+        *) args="$args $(echo $arg | sed 's/#/ /g' )";;
     esac
 done
+
+echo $bootcp
+echo $args
 
 $java \
     -classpath "$bootcp" \
     "org.eclipse.jdt.internal.compiler.batch.Main" \
-    -nowarn \
     -source "$source" \
     -target "$target" \
     -cp "$_cp" \
+    -nowarn \
     $args
-else
-    printf "javac: no arguments given!\n"
-fi
 
