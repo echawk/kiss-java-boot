@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 bootcp="/usr/share/classpath/tools.zip"
 bootcp="$bootcp:/usr/share/classpath/glibj.zip"
@@ -12,6 +12,8 @@ _cp="."
 java="${JAVACMD:-/usr/bin/jamvm}"
 
 args=""
+
+if [ -n "$@" ]; then
 
 for arg in $@; do
     case $arg in
@@ -51,3 +53,7 @@ $java \
     -target "$target" \
     -cp "$_cp" \
     $args
+else
+    printf "javac: no arguments given!\n"
+fi
+
