@@ -1,9 +1,12 @@
 #!/bin/sh
 
+# This script aims to be a POSIX shell reimplementation of
+# GNU Guix's ecj-javac-wrapper guile script.
+
 bootcp="/usr/share/classpath/tools.zip"
 bootcp="$bootcp:/usr/share/classpath/glibj.zip"
-bootcp="$bootcp:/usr/share/java/ecj-bootstrap.jar"
-bootcp="$bootcp:${CLASSPATH:-/usr/lib/rt.jar}"
+
+export CLASSPATH="${CLASSPATH:-/usr/lib/rt.jar}:/usr/share/java/ecj-bootstrap.jar"
 
 source="1.5"
 target="1.5"
@@ -24,14 +27,15 @@ for arg in $(echo $@ | sed 's/ -/#-/g' | tr '#' '\n' | grep -v -e '^-J' | sed "s
         -target*)    target="$(echo $arg | cut -d'#' -f2)";;
         -classpath*) bootcp="$bootcp:$(echo $arg | cut -d'#' -f2)";;
         -cp) _cp="$(echo $arg | cut -d'#' -f2)";;
-        -bootclasspath*);;
+        -bootclasspath*) ;; # args="$args $(echo $arg | sed 's/#/ /g' )";;
         *) args="$args $(echo $arg | sed 's/#/ /g' )";;
     esac
 done
 
 $java -Xmx2048M \
-    -classpath "$bootcp" \
+    -classpath "$CLASSPATH:$bootcp" \
     "org.eclipse.jdt.internal.compiler.batch.Main" \
+    -bootclasspath "$bootcp" \
     -source "$source" \
     -target "$target" \
     -cp "$_cp" \
