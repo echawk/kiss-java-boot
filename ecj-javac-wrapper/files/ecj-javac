@@ -1,0 +1,53 @@
+#!/bin/sh
+
+bootcp="/usr/share/classpath/tools.zip"
+bootcp="$bootcp:/usr/share/classpath/glibj.zip"
+bootcp="$bootcp:/usr/share/java/ecj-bootstrap.jar"
+bootcp="$bootcp:${CLASSPATH:-/usr/lib/rt.jar}"
+
+source="1.5"
+target="1.5"
+_cp="."
+
+java="${JAVACMD:-/usr/bin/jamvm}"
+
+args=""
+
+for arg in $@; do
+    case $arg in
+        -J) shift ;;
+        -cp)
+            _cp="$2"
+            shift
+            shift
+            ;;
+        -source)
+            source="$2"
+            shift
+            shift
+            ;;
+        -target)
+            target="$2"
+            shift
+            shift
+            ;;
+        -bootclasspath)
+            bootcp="$2"
+            shift
+            shift
+            ;;
+        *)
+            args="$args $arg"
+            shift
+            ;;
+    esac
+done
+
+$java \
+    -classpath "$bootcp" \
+    "org.eclipse.jdt.internal.compiler.batch.Main" \
+    -nowarn \
+    -source "$source" \
+    -target "$target" \
+    -cp "$_cp" \
+    $args
