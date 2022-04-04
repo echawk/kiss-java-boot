@@ -29,7 +29,7 @@ for arg in $(echo $@ | sed 's/ -/#-/g' | tr '#' '\n' | grep -v -e '^-J' | sed "s
     esac
 done
 
-$java \
+$java -Xmx2048M \
     -classpath "$bootcp" \
     "org.eclipse.jdt.internal.compiler.batch.Main" \
     -source "$source" \
