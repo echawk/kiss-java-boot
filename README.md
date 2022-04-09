@@ -8,10 +8,13 @@ The following are currently packaged:
 * jikes (1.22)
 * gnuclasspath (0.93)
 * fastjar (0.98)
-* jamvm (1.5.1) - however it has not been rigorously tested.
+* jamvm (1.5.1)
+* ant (1.8.4)
+* ecj (3.2.2)
 
 The following are WIP:
-* ant (1.8.4)
+* ecj-javac-wrapper
+* gnuclasspath (0.99)
 
 ~~Once jamvm 1.5.1 is packaged, the initial bootstap jdk will be complete. This should allow us to continue following the same chain that guix uses.~~
 
