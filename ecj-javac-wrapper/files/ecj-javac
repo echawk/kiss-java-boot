@@ -31,7 +31,7 @@ for arg in $(echo $@ | sed 's/ -/#-/g' | tr '#' '\n' | grep -v -e '^-J' | sed "s
         *) args="$args $(echo $arg | sed 's/#/ /g' )";;
     esac
 done
-
+set -x
 $java -Xmx2048M \
     -classpath "$CLASSPATH:$bootcp" \
     "org.eclipse.jdt.internal.compiler.batch.Main" \
