@@ -3,42 +3,31 @@
 # This script aims to be a POSIX shell reimplementation of
 # GNU Guix's ecj-javac-wrapper guile script.
 
-bootcp="/usr/share/classpath/tools.zip"
-bootcp="$bootcp:/usr/share/classpath/glibj.zip"
-
-export CLASSPATH="${CLASSPATH:-/usr/lib/rt.jar}:/usr/share/java/ecj-bootstrap.jar"
-
-source="1.5"
-target="1.5"
-_cp="."
-
-java="${JAVACMD:-/usr/bin/jamvm}"
-
-args=""
+export CLASSPATH="${CLASSPATH:-/usr/lib/rt.jar}:/usr/share/java/ecj-bootstrap.jar:/usr/share/classpath/tools.zip:/usr/share/classpath/glibj.zip"
+_javacmd="${JAVACMD:-/usr/bin/jamvm}"
 
 if [ $# -lt 1 ]; then
     printf "javac: no arguments given!\n"
     exit
 fi
 
+_args=""
 for arg in $(echo $@ | sed 's/ -/#-/g' | tr '#' '\n' | grep -v -e '^-J' | sed "s/ /#/g"); do
     case $arg in
-        -source*)    source="$(echo $arg | cut -d'#' -f2)";;
-        -target*)    target="$(echo $arg | cut -d'#' -f2)";;
-        -classpath*) bootcp="$bootcp:$(echo $arg | cut -d'#' -f2)";;
-        -cp) _cp="$(echo $arg | cut -d'#' -f2)";;
-        -bootclasspath*) ;; # args="$args $(echo $arg | sed 's/#/ /g' )";;
-        *) args="$args $(echo $arg | sed 's/#/ /g' )";;
+        -bootclasspath*) bootcp="$(echo ${arg#*#} | tr '#' ' ')";;
+        -classpath*)         cp="$(echo ${arg#*#} | tr '#' ' ')";;
+        -cp*)                cp="$(echo ${arg#*#} | tr '#' ' ')";;
+        *)        _args="$_args $(echo "$arg" | tr '#' ' ')";;
     esac
 done
+
 set -x
-$java -Xmx2048M \
-    -classpath "$CLASSPATH:$bootcp" \
+$_javacmd \
+    -Xmx2048M \
+    -classpath "$CLASSPATH" \
     "org.eclipse.jdt.internal.compiler.batch.Main" \
     -bootclasspath "$bootcp" \
-    -source "$source" \
-    -target "$target" \
-    -cp "$_cp" \
+    -cp "$cp" \
     -nowarn \
-    $args
+    $_args
 
