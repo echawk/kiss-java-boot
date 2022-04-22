@@ -81,3 +81,23 @@ kiss build ecj ecj-javac-wrapper
 kiss build gnuclasspath
 ```
 
+## JDK 1
+
+JDK 1 is the final bootstrap JDK, and is able to compile IcedTea2 (Java 7).
+
+software                 | version | desc
+--------:                |--------:|-----:
+classpath-jamvm-wrappers | git     | Wrapper for GNUclasspath Java tools
+jamvm                    | 2.0.0   | Java Virtual Machine
+ecj                      | 4.2.1   | Incremental Java Compiler
+gnuclasspath             | git     | Java Standard Library
+
+To build & Install:
+```shell
+cd jdk1
+export KISS_PATH="$PWD:$KISS_PATH"
+kiss build classpath-jamvm-wrappers
+kiss build gnuclasspath
+kiss build jamvm
+```
+
