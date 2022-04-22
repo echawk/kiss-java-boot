@@ -1,0 +1,4 @@
+https://downloads.sourceforge.net/jamvm/jamvm-2.0.0.tar.gz
+files/fpu_control.h files/
+patches/jamvm-2.0.0-disable-branch-patching.patch
+patches/jamvm-2.0.0-opcode-guard.patch
