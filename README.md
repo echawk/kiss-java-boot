@@ -13,11 +13,11 @@ The following are currently packaged:
 * ecj (3.2.2)
 * ecj-javac-wrapper
 * gnuclasspath (0.99)
-
-The following are WIP:
 * classpath-jamvm-wrappers
 * gnuclasspath (git)
 * jamvm (2.0.0)
+
+The following are WIP:
 * ecj (4.2.1)
 
 ~~Once jamvm 1.5.1 is packaged, the initial bootstap jdk will be complete. This should allow us to continue following the same chain that guix uses.~~
