@@ -89,5 +89,6 @@ export KISS_PATH="$PWD:$KISS_PATH"
 kiss build classpath-jamvm-wrappers
 kiss build gnuclasspath
 kiss build jamvm
+kiss build ecj
 ```
 
