@@ -1,0 +1,33 @@
+#!/bin/sh -e
+
+export CC=clang
+
+: > nostrip # just in case
+
+for patch in *.patch; do
+    patch -p1 < $patch
+done
+
+find . -name *.java | xargs sed -i "s/@Override//g"
+
+autoreconf -vif
+
+./configure \
+    --prefix=/usr \
+    --with-ecj-jar="/usr/share/java/ecj-bootstrap.jar" \
+    JAVAC="/usr/bin/javac" \
+    JAVA="/usr/bin/jamvm" \
+    GCJ_JAVAC_TRUE=no \
+    ac_cv_proj_java_works=yes \
+    --disable-Werror \
+    --disable-gmp \
+    --disable-gtk-peer \
+    --disable-gconf-peer \
+    --disable-plugin \
+    --disable-dssi \
+    --disable-alsa \
+    --disable-gjdoc
+
+make
+make install
+make install-data
