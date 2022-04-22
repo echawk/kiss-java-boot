@@ -1,0 +1,33 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/bin/"
+
+tools="javah rmic rmid orbd rmiregistry native2ascii"
+
+for tool in $tools; do
+    case $tool in
+        native2ascii)
+cat > "$1/usr/bin/$tool" <<EOF
+#!/bin/sh
+_javacmd=\${JAVACMD:-/usr/bin/jamvm}
+\$_javacmd \\
+    -Xnoinlining \\
+    -classpath /usr/share/classpath/tools.zip \\
+    "gnu.classpath.tools.native2ascii.Native2ASCII" \\
+    \$@
+EOF
+            ;;
+        *)
+cat > "$1/usr/bin/$tool" <<EOF
+#!/bin/sh
+_javacmd=\${JAVACMD:-/usr/bin/jamvm}
+\$_javacmd \\
+    -Xnoinlining \\
+    -classpath /usr/share/classpath/tools.zip \\
+    "gnu.classpath.tools.$tool.Main" \\
+    \$@
+EOF
+            ;;
+    esac
+    chmod +x "$1/usr/bin/$tool"
+done
