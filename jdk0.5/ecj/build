@@ -9,6 +9,9 @@ Main-Class: org.eclipse.jdt.internal.compiler.batch.Main\n
 EOF
 
 export CLASSPATH="$(find /usr/share/apache-ant/lib/ -name *.jar | tr '\n' ':'):/usr/lib/rt.jar"
+for f in /usr/share/classpath/tools.zip /usr/share/classpath/glibj.zip; do
+    [ -e $f ] && export CLASSPATH="$CLASSPATH:$f"
+done
 
 jikes $(find . -type f -name *.java)
 
