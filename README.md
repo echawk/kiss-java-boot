@@ -20,16 +20,6 @@ The following are currently packaged:
 The following are WIP:
 * ecj (4.2.1)
 
-~~Once jamvm 1.5.1 is packaged, the initial bootstap jdk will be complete. This should allow us to continue following the same chain that guix uses.~~
-
-jamvm is now packged, so work will be on ant (1.8.4). Once this is working, we will be able to move onto bootstrapping ecj (3.2.2).
-
-I am still working on how this repo will be packaged; right now each program has
-it's own separate packge directory, however this is possible to change in the future
-if it makes maintenance easier. For example, having a 'jdk-stage-0' for the jdk
-that consists of jikes@1.22, gnuclasspath@0.93, and jamvm@1.5.1.
-
-
 If you have any experience or are able to get a package to compile, please submit a PR or issue!
 Any and all help is appreciated!
 
