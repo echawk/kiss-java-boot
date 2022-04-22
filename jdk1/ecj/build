@@ -5,7 +5,11 @@ cd src
 gjar -xf ../*.jar*
 ls -lah
 
-export CLASSPATH="/usr/lib/rt.jar:/usr/share/classpath/tools.zip:/usr/share/classpath/glibj.zip:$(find /usr/share/apache-ant/lib/ -name *.jar | tr '\n' ':')"
+export CLASSPATH="/usr/lib/rt.jar"
+export CLASSPATH="$CLASSPATH:/usr/share/classpath/tools.zip"
+export CLASSPATH="$CLASSPATH:/usr/share/classpath/glibj.zip"
+export CLASSPATH="$CLASSPATH:/usr/share/java/ecj-bootstrap.jar"
+export CLASSPATH="$CLASSPATH:$(find /usr/share/apache-ant/lib/ -name *.jar | tr '\n' ':' | sed 's/:$//')"
 
 find . -name *.java | xargs sed -i "s/@Override//g"
 
@@ -20,6 +24,7 @@ Main-Class: org.eclipse.jdt.internal.compiler.batch.Main\n
 EOF
 
 javac -version #$(find . -type f -name *.java)
+javac -cp "$CLASSPATH" -target 1.6 -source 1.6 $(find . -type f -name *.java)
 
 exit 1
 fastjar cvfm ecj-bootstrap.jar META-INF/MANIFESTS.MF .
