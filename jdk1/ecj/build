@@ -19,8 +19,9 @@ Manifest-Version: 1.0
 Main-Class: org.eclipse.jdt.internal.compiler.batch.Main\n
 EOF
 
-javac $(find . -type f -name *.java)
+javac -version #$(find . -type f -name *.java)
 
+exit 1
 fastjar cvfm ecj-bootstrap.jar META-INF/MANIFESTS.MF .
 
 mkdir -p "$1/usr/share/java/"
