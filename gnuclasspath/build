@@ -9,6 +9,7 @@ for patch in *.patch; do
 done
 
 ./configure \
+    --prefix=/usr \
     --with-ecj-jar="/usr/share/java/ecj-bootstrap.jar" \
     JAVAC="/usr/bin/javac" \
     JAVA="/usr/bin/jamvm" \
