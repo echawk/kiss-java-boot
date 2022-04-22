@@ -14,10 +14,10 @@ fi
 _args=""
 for arg in $(echo $@ | sed 's/ -/#-/g' | tr '#' '\n' | grep -v -e '^-J' | sed "s/ /#/g"); do
     case $arg in
-        -bootclasspath*) bootcp="$(echo ${arg#*#} | tr '#' ' ')";;
-        -classpath*)         cp="$(echo ${arg#*#} | tr '#' ' ')";;
-        -cp*)                cp="$(echo ${arg#*#} | tr '#' ' ')";;
-        *)        _args="$_args $(echo "$arg" | tr '#' ' ')";;
+        -bootclasspath*) bootcp="$(echo $arg | sed 's/-bootclasspath//' | tr '#' ' ')";;
+        -classpath*)         cp="$(echo $arg | sed 's/-classpath//'     | tr '#' ' ')";;
+        -cp*)                cp="$(echo $arg | sed 's/-cp//'            | tr '#' ' ')";;
+        *)         _args="$_args $(echo $arg | tr '#' ' ')";;
     esac
 done
 
@@ -28,6 +28,5 @@ $_javacmd \
     "org.eclipse.jdt.internal.compiler.batch.Main" \
     -bootclasspath "$bootcp" \
     -cp "$cp" \
-    -nowarn \
     $_args
 
