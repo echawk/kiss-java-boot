@@ -11,10 +11,14 @@ The following are currently packaged:
 * jamvm (1.5.1)
 * ant (1.8.4)
 * ecj (3.2.2)
-
-The following are WIP:
 * ecj-javac-wrapper
 * gnuclasspath (0.99)
+
+The following are WIP:
+* classpath-jamvm-wrappers
+* gnuclasspath (git)
+* jamvm (2.0.0)
+* ecj (4.2.1)
 
 ~~Once jamvm 1.5.1 is packaged, the initial bootstap jdk will be complete. This should allow us to continue following the same chain that guix uses.~~
 
@@ -51,5 +55,29 @@ To build & Install:
 cd jdk0
 export KISS_PATH="$PWD:$KISS_PATH"
 kiss build jikes gnuclasspath jamvm
+```
+
+## JDK 0.5
+
+JDK 0.5 is effectively a transition JDK, from 0 to 1 (the final bootstrap JDK).
+
+These are the components:
+
+software          | version | desc
+--------:         |--------:|-----:
+fastjar           | 0.98    | Java's `jar` written in C
+ant-bootstrap     | 1.8.4   | Java build tool
+ecj               | 3.2.2   | Incremental Java Compiler
+ecj-javac-wrapper | git     | Wrapper for ECJ to behave like `javac`
+gnuclasspath      | 0.99    | Java Standard Library
+
+To build & Install:
+```shell
+cd jdk0.5
+export KISS_PATH="$PWD:$KISS_PATH"
+kiss build fastjar ant-bootstrap
+sh /etc/profile.d/apache-ant-bootstrap.sh
+kiss build ecj ecj-javac-wrapper
+kiss build gnuclasspath
 ```
 
