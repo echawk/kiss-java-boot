@@ -1,0 +1,8 @@
+https://icedtea.classpath.org/download/source/icedtea-VERSION.tar.xz
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/openjdk.tar.bz2?no-extract   openjdk.tar.bz2
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/corba.tar.bz2?no-extract     corba.tar.bz2
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/jaxp.tar.bz2?no-extract      jaxp.tar.bz2
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/jaxws.tar.bz2?no-extract     jaxws.tar.bz2
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/jdk.tar.bz2?no-extract       jdk.tar.bz2
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/langtools.tar.bz2?no-extract langtools.tar.bz2
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/hotspot.tar.bz2?no-extract   hotspot.tar.bz2

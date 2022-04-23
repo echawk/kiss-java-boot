@@ -1,0 +1,69 @@
+#!/bin/sh -e
+
+ls -lah
+
+# using ccache causes ICEs with pregenerated headers
+export CCACHE_DISABLE=1
+
+#export ALT_PARALLEL_COMPILE_JOBS="$(nproc)"
+#export HOTSPOT_BUILD_JOBS="$(nproc)"
+
+export JAVA_HOME=/usr
+
+# from alpine: disable jvm-breaking optimizations and c++ std
+export EXTRA_CPP_FLAGS="$CXXFLAGS -std=gnu++98 -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
+export EXTRA_CFLAGS="$CFLAGS -std=gnu++98 -Wno-error -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
+
+export CFLAGS="-fcommon"
+
+#TODO: add Void's patches to this package.
+#for patch in patches/*; do
+#    case "$patch" in
+#        icedtea-*.patch) DISTRIBUTION_PATCHES="$DISTRIBUTION_PATCHES $patch"
+#    esac
+#done
+
+jdk_prefix=/usr/lib/jvm/java-1.7-openjdk
+
+autoreconf -vif
+
+# FIXME: figure out why these variables need to be set to true.
+it_cv_jdk_works=true \
+    it_cv_cp39408_javah=true \
+    it_cv_cp45526_javah=true \
+    ./configure \
+    --prefix="$jdk_prefix" \
+    --with-parallel-jobs="$(nproc)" \
+    --with-jdk-home=/usr \
+    --with-openjdk-src-zip=openjdk.tar.bz2 \
+    --with-hotspot-src-zip=hotspot.tar.bz2 \
+    --with-corba-src-zip=corba.tar.bz2 \
+    --with-jaxp-src-zip=jaxp.tar.bz2 \
+    --with-jaxws-src-zip=jaxws.tar.bz2 \
+    --with-jdk-src-zip=jdk.tar.bz2 \
+    --with-langtools-src-zip=langtools.tar.bz2 \
+    --with-openjdk-src-dir=./openjdk.src \
+    --with-ecj=/usr/bin/javac \
+    --with-jdk-home=/usr \
+    --with-java=/usr/bin/jamvm \
+    --with-jar=/usr/bin/gjar \
+    --without-rhino \
+    --enable-system-pcsc \
+    --enable-system-lcms \
+    --enable-bootstrap \
+    --enable-nss \
+    --disable-downloading \
+    --disable-tests \
+    --disable-system-sctp \
+    --disable-dependency-tracking \
+    --disable-downloading \
+    --disable-arm32-jit
+
+exit 1
+make -j1 SHELL=/usr/bin/bash icedtea-boot
+
+mkdir -p "$1/$jdk_prefix"
+cp -a openjdk.build-boot/j2sdk-image/* "$1/$jdk_prefix"
+cp -a openjdk.build-boot/include       "$1/$jdk_prefix"
+rm -rf "$1/$jdk_prefix/src.zip"
+rm -rf "$1/usr/lib/bin"
