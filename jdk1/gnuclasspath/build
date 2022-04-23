@@ -31,3 +31,5 @@ autoreconf -vif
 make
 make install
 make install-data
+
+ln -s /usr/share/classpath/tools.zip "$1/usr/lib/tools.jar"
