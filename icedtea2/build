@@ -17,9 +17,9 @@ export EXTRA_CFLAGS="$CFLAGS -std=gnu++98 -Wno-error -fno-delete-null-pointer-ch
 export CFLAGS="-fcommon"
 
 #TODO: add Void's patches to this package.
-for patch in patches/*; do
+for patch in kiss-patches/*; do
     case "$patch" in
-        patches/icedtea-*.patch) DISTRIBUTION_PATCHES="$DISTRIBUTION_PATCHES $patch"
+        kiss-patches/icedtea-*.patch) DISTRIBUTION_PATCHES="$DISTRIBUTION_PATCHES $patch"
     esac
 done
 
@@ -28,7 +28,8 @@ jdk_prefix=/usr/lib/jvm/java-1.7-openjdk
 for tarball in *.tar.bz2\?no-extract; do
     src_d="$(echo $tarball | cut -d'.' -f1).src"
     mkdir -p $src_d
-    tar xvf "$tarball" \
+    echo "Extracting $tarball"
+    tar xf "$tarball" \
         -C "$src_d" \
         --strip-components=1
 done
@@ -69,7 +70,7 @@ it_cv_jdk_works=true \
     --disable-arm32-jit \
     --disable-system-jpeg \
     --disable-system-gtk
-
+# FIXME: figure out why Makefile.in is being removed during the config process.
 exit 1
 make -j1 SHELL=/usr/bin/bash icedtea-boot
 
