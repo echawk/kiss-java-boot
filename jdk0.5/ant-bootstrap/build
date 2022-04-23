@@ -18,7 +18,7 @@ sh bootstrap.sh -Ddist.dir=boot
 
 # Use bootstrapped ant to build jars & dist.
 boot/bin/ant -Ddist.dir="junk" jars
-boot/bin/ant -Ddist.dir="junk" dist
+boot/bin/ant -Ddist.dir="junk" dist-lite
 
 # Remove manuals & Windows stuff.
 rm -rf junk/manual
