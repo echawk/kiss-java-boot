@@ -1,8 +1,20 @@
 https://icedtea.classpath.org/download/source/icedtea-VERSION.tar.xz
-https://icedtea.classpath.org/download/drops/icedtea7/VERSION/openjdk.tar.bz2?no-extract   openjdk.tar.bz2
-https://icedtea.classpath.org/download/drops/icedtea7/VERSION/corba.tar.bz2?no-extract     corba.tar.bz2
-https://icedtea.classpath.org/download/drops/icedtea7/VERSION/jaxp.tar.bz2?no-extract      jaxp.tar.bz2
-https://icedtea.classpath.org/download/drops/icedtea7/VERSION/jaxws.tar.bz2?no-extract     jaxws.tar.bz2
-https://icedtea.classpath.org/download/drops/icedtea7/VERSION/jdk.tar.bz2?no-extract       jdk.tar.bz2
-https://icedtea.classpath.org/download/drops/icedtea7/VERSION/langtools.tar.bz2?no-extract langtools.tar.bz2
-https://icedtea.classpath.org/download/drops/icedtea7/VERSION/hotspot.tar.bz2?no-extract   hotspot.tar.bz2
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/openjdk.tar.bz2?no-extract
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/corba.tar.bz2?no-extract
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/jaxp.tar.bz2?no-extract
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/jaxws.tar.bz2?no-extract
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/jdk.tar.bz2?no-extract
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/langtools.tar.bz2?no-extract
+https://icedtea.classpath.org/download/drops/icedtea7/VERSION/hotspot.tar.bz2?no-extract
+patches/icedtea-cpio.patch                 patches/
+patches/icedtea-hotspot-musl-ppc.patch     patches/
+patches/icedtea-hotspot-musl.patch         patches/
+patches/icedtea-hotspot-noagent-musl.patch patches/
+patches/icedtea-hotspot-uclibc-fixes.patch patches/
+patches/icedtea-jdk-execinfo.patch         patches/
+patches/icedtea-jdk-fix-build.patch        patches/
+patches/icedtea-jdk-fix-ipv6-init.patch    patches/
+patches/icedtea-jdk-musl.patch             patches/
+patches/icedtea-jdk-no-soname.patch        patches/
+patches/icedtea-jdk-xattr.patch            patches/
+patches/icedtea-pr64174.patch              patches/
