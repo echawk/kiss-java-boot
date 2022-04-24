@@ -28,31 +28,42 @@ done
 jdk_prefix=/usr/lib/jvm/java-1.7-openjdk
 
 for tarball in *.tar.bz2\?no-extract; do
-    src_d="$(echo $tarball | cut -d'.' -f1).src"
-    mkdir -p $src_d
-    echo "Extracting $tarball"
-    tar xf "$tarball" \
-        -C "$src_d" \
-        --strip-components=1
+    name="$(echo $tarball | cut -d'.' -f1)"
+    case "$name" in
+        openjdk)
+            src_d="$name.src"
+            mkdir -p $src_d
+            echo "Extracting $tarball"
+            tar xf "$tarball" \
+                -C "$src_d" \
+                --strip-components=1
+            ;;
+        *) mv "$tarball" "$name-$2.tar.bz2";;
+    esac
 done
 
 sed -i "/AC_CHECK_HEADERS/s/attr/sys/" acinclude.m4
 
 autoreconf -vif
 
+sed -i "s#srcdir=\.\.#srcdir=\.#" configure
+
+#sed -i "/cannot find input file/s/.*/echo \$ac_f ; echo '****' ; pwd ; ls ; wc -l Makefile; echo '****' ; cd icedtea2; ;;/" configure
+
 # FIXME: figure out why this variables need to be set to true.
 it_cv_cp39408_javah=true \
     ./configure \
+    --srcdir=$PWD \
     --prefix="$jdk_prefix" \
     --with-parallel-jobs="$(nproc)" \
     --with-jdk-home=/usr \
     --with-openjdk-src-dir=openjdk.src \
-    --with-hotspot-src-dir=hotspot.src \
-    --with-corba-src-dir=corba.src \
-    --with-jaxp-src-dir=jaxp.src \
-    --with-jaxws-src-dir=jaxws.src \
-    --with-jdk-src-dir=jdk.src \
-    --with-langtools-src-dir=./langtools.src \
+    --with-hotspot-src-zip=$PWD/hotspot-$2.tar.bz2 \
+    --with-corba-src-zip=$PWD/corba-$2.tar.bz2 \
+    --with-jaxp-src-zip=$PWD/jaxp-$2.tar.bz2 \
+    --with-jaxws-src-zip=$PWD/jaxws-$2.tar.bz2 \
+    --with-jdk-src-zip=$PWD/jdk-$2.tar.bz2 \
+    --with-langtools-src-zip=$PWD/langtools-$2.tar.bz2 \
     --with-ecj=/usr/bin/javac \
     --with-jdk-home=/usr \
     --with-java=/usr/bin/jamvm \
@@ -69,8 +80,15 @@ it_cv_cp39408_javah=true \
     --disable-downloading \
     --disable-arm32-jit \
     --disable-system-jpeg \
-    --disable-system-gtk
+    --disable-system-gtk || true
+
+sleep 10000
+
 # FIXME: figure out why Makefile.in is being removed during the config process.
+#        - Makefile.in is **not** being removed
+#      - For some reason (unknown atm) the config.status script that
+#      `./configure` makes is generated in the parent directory for kiss, this
+#      is typically '/tmp/kiss/[0-9]/build'. I'm trying to figure out why.
 exit 1
 make -j1 SHELL=/usr/bin/bash icedtea-boot
 
