@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+cd ./src
+
+./configure \
+    WARN_CFLAGS= \
+    --prefix="/usr" \
+    --disable-nls \
+    --disable-rpath \
+    --without-tcl
+
+make
+make DESTDIR="$1" install
