@@ -92,3 +92,13 @@ kiss build jamvm
 kiss build ecj
 ```
 
+## IcedTea2 (Java 7)
+
+IcedTea2 is the first OpenJDK that we are able to build and is able to build
+OpenJDK 8 (Java 8).
+
+NOTE: Currently this is a work in progress, as the build script is not working.
+
+Current [issue](https://github.com/ehawkvu/kiss-java-boot/blob/master/icedtea2/build#L87).
+
+Help is very much appreciated!
