@@ -18,3 +18,5 @@ patches/icedtea-jdk-musl.patch             kiss-patches/
 patches/icedtea-jdk-no-soname.patch        kiss-patches/
 patches/icedtea-jdk-xattr.patch            kiss-patches/
 patches/icedtea-pr64174.patch              kiss-patches/
+patches/build-autoconf-2.7x.patch
+patches/build-fix-xattr-include.patch

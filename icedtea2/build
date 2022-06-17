@@ -2,10 +2,9 @@
 
 ls -lah
 
-case $(autoreconf --version | sed q) in
-    *2.6[0-9]) echo "autoconf is the right version!" ;;
-    *) echo "autoconf is not the right version, make sure to install autoconf from this repo!";;
-esac
+for p in build-*.patch; do
+    patch -p1 < $p
+done
 
 # using ccache causes ICEs with pregenerated headers
 export CCACHE_DISABLE=1
@@ -87,6 +86,7 @@ it_cv_cp39408_javah=true \
     --disable-downloading \
     --disable-arm32-jit \
     --disable-system-jpeg \
+    --disable-compile-against-syscalls \
     --disable-system-gtk || true
 
 sleep 10000000
