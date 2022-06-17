@@ -55,6 +55,8 @@ sed -i "/AC_CHECK_HEADERS/s/attr/sys/" acinclude.m4
 
 #sed -i "/cannot find input file/s/.*/echo \$ac_f ; echo '****' ; pwd ; ls ; wc -l Makefile; echo '****' ; cd icedtea2; ;;/" configure
 
+export DESTDIR=""
+
 # FIXME: figure out why this variables need to be set to true.
 it_cv_cp39408_javah=true \
     ./configure \
