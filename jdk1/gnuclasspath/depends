@@ -1,4 +1,5 @@
 clang make
 file
+gettext-tiny make
 jikes
 zip make
