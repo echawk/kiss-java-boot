@@ -2,3 +2,6 @@ cups
 krb5
 lcms
 libX11
+libxslt
+nss
+wget

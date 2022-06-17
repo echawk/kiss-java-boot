@@ -2,6 +2,11 @@
 
 ls -lah
 
+case $(autoreconf --version | sed q) in
+    *2.6[0-9]) echo "autoconf is the right version!" ;;
+    *) echo "autoconf is not the right version, make sure to install autoconf from this repo!";;
+esac
+
 # using ccache causes ICEs with pregenerated headers
 export CCACHE_DISABLE=1
 
@@ -44,9 +49,9 @@ done
 
 sed -i "/AC_CHECK_HEADERS/s/attr/sys/" acinclude.m4
 
-autoreconf -vif
+./autogen.sh
 
-sed -i "s#srcdir=\.\.#srcdir=\.#" configure
+#sed -i "s#srcdir=\.\.#srcdir=\.#" configure
 
 #sed -i "/cannot find input file/s/.*/echo \$ac_f ; echo '****' ; pwd ; ls ; wc -l Makefile; echo '****' ; cd icedtea2; ;;/" configure
 
@@ -57,7 +62,7 @@ it_cv_cp39408_javah=true \
     --prefix="$jdk_prefix" \
     --with-parallel-jobs="$(nproc)" \
     --with-jdk-home=/usr \
-    --with-openjdk-src-dir=openjdk.src \
+    --with-openjdk-src-dir=$PWD/openjdk.src \
     --with-hotspot-src-zip=$PWD/hotspot-$2.tar.bz2 \
     --with-corba-src-zip=$PWD/corba-$2.tar.bz2 \
     --with-jaxp-src-zip=$PWD/jaxp-$2.tar.bz2 \
@@ -82,7 +87,7 @@ it_cv_cp39408_javah=true \
     --disable-system-jpeg \
     --disable-system-gtk || true
 
-sleep 10000
+sleep 10000000
 
 # FIXME: figure out why Makefile.in is being removed during the config process.
 #        - Makefile.in is **not** being removed
