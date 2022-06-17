@@ -101,4 +101,9 @@ NOTE: Currently this is a work in progress, as the build script is not working.
 
 Current [issue](https://github.com/ehawkvu/kiss-java-boot/blob/master/icedtea2/build#L87).
 
+Useful links:
+* Alpine's buildscript [here](https://git.alpinelinux.org/aports/tree/community/openjdk7/APKBUILD).
+* Void's buildscript [here](https://github.com/void-linux/void-packages/blob/master/srcpkgs/openjdk7-bootstrap/template).
+* Guix's buildscript [here](https://git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/java.scm#n770).
+
 Help is very much appreciated!
