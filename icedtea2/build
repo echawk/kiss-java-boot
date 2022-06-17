@@ -46,6 +46,10 @@ for tarball in *.tar.bz2\?no-extract; do
     esac
 done
 
+# From Alpine: Busybox sha256 does not support longopts
+sed "s/--check/-c/g" Makefile.am > _
+mv -f _ Makefile.am
+
 ./autogen.sh
 
 export DESTDIR=""
