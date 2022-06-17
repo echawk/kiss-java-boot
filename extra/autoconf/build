@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr
+    #--program-suffix="$(echo $2 | tr -d '.')"
+
+make
+make install
