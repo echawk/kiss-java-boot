@@ -46,13 +46,7 @@ for tarball in *.tar.bz2\?no-extract; do
     esac
 done
 
-sed -i "/AC_CHECK_HEADERS/s/attr/sys/" acinclude.m4
-
 ./autogen.sh
-
-#sed -i "s#srcdir=\.\.#srcdir=\.#" configure
-
-#sed -i "/cannot find input file/s/.*/echo \$ac_f ; echo '****' ; pwd ; ls ; wc -l Makefile; echo '****' ; cd icedtea2; ;;/" configure
 
 export DESTDIR=""
 
