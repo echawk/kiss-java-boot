@@ -26,6 +26,7 @@ autoreconf -vif
     --disable-plugin \
     --disable-dssi \
     --disable-alsa \
+    --disable-examples \
     --disable-gjdoc
 
 make
