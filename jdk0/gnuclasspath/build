@@ -19,6 +19,7 @@ JAVAC=/usr/bin/jikes \
     --disable-dssi \
     --disable-alsa \
     --disable-gjdoc \
+    --disable-examples \
     --with-jikes
 
 make
