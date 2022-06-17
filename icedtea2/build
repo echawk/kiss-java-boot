@@ -56,6 +56,7 @@ export DESTDIR=""
 
 # FIXME: figure out why this variables need to be set to true.
 it_cv_cp39408_javah=true \
+    CONFIG_STATUS=$PWD/config.status \
     ./configure \
     --srcdir=$PWD \
     --prefix="$jdk_prefix" \
