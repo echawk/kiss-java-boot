@@ -106,4 +106,9 @@ Useful links:
 * Void's buildscript [here](https://github.com/void-linux/void-packages/blob/master/srcpkgs/openjdk7-bootstrap/template).
 * Guix's buildscript [here](https://git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/java.scm#n770).
 
+Alternatively, we could build IcedTea2 with GCC's java compiler, gcj.
+* Alpine's buildscript [here](https://git.alpinelinux.org/aports/tree/community/gcc6/APKBUILD).
+* Void's buildscript [here](https://github.com/void-linux/void-packages/blob/master/srcpkgs/gcc6/template).
+* AUR's buildscript [here](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=gcc6).
+
 Help is very much appreciated!
