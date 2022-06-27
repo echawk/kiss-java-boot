@@ -1,17 +1,15 @@
 #!/bin/sh -e
 
-sonameprefix="$pkgname:"
-
 _err=
 for p in *.patch; do
-	patch -p1 -F3 < "$p" || _err="$_err $i"
+    patch -p1 -F3 < "$p" || _err="$_err $i"
 done
 
 if [ -n "$_err" ]; then
-	echo "The following patches failed:"
-	for i in $_err; do
-		echo "  $i"
-	done
+    echo "The following patches failed:"
+    for i in $_err; do
+        echo "  $i"
+    done
 fi
 
 # see https://gcc.gnu.org/ml/java/2008-04/msg00027.html
@@ -20,86 +18,73 @@ cp "$KISS_ROOT/usr/share/java/ecj-bootstrap.jar" ecj.jar
 echo $2 > gcc/BASE-VER
 
 case "$CTARGET" in
-aarch64-*-*-*)		_arch_configure="--with-arch=armv8-a --with-abi=lp64";;
-armv5-*-*-*eabi)	_arch_configure="--with-arch=armv5te --with-tune=arm926ej-s --with-float=soft --with-abi=aapcs-linux";;
-armv6-*-*-*eabihf)	_arch_configure="--with-arch=armv6zk --with-tune=arm1176jzf-s --with-fpu=vfp --with-float=hard --with-abi=aapcs-linux";;
-armv7-*-*-*eabihf)	_arch_configure="--with-arch=armv7-a --with-tune=generic-armv7-a --with-fpu=vfpv3-d16 --with-float=hard --with-abi=aapcs-linux --with-mode=thumb";;
-mips-*-*-*)		_arch_configure="--with-arch=mips32 --with-mips-plt --with-float=soft --with-abi=32";;
-mips64-*-*-*)		_arch_configure="--with-arch=mips3 --with-tune=mips64 --with-mips-plt --with-float=soft --with-abi=64";;
-mips64el-*-*-*)		_arch_configure="--with-arch=mips3 --with-tune=mips64 --with-mips-plt --with-float=soft --with-abi=64";;
-mipsel-*-*-*)		_arch_configure="--with-arch=mips32 --with-mips-plt --with-float=soft --with-abi=32";;
-powerpc-*-*-*)		_arch_configure="--enable-secureplt --enable-decimal-float=no";;
-powerpc64*-*-*-*)	_arch_configure="--with-abi=elfv2 --enable-secureplt --enable-decimal-float=no --enable-targets=powerpcle-linux";;
-i486-*-*-*)		_arch_configure="--with-arch=i486 --with-tune=generic --enable-cld";;
-i586-*-*-*)		_arch_configure="--with-arch=i586 --with-tune=generic --enable-cld";;
-s390x-*-*-*)		_arch_configure="--with-arch=z196 --with-tune=zEC12 --with-zarch --with-long-double-128 --enable-decimal-float";;
+aarch64-*-*-*)      _arch_configure="--with-arch=armv8-a --with-abi=lp64";;
+armv5-*-*-*eabi)    _arch_configure="--with-arch=armv5te --with-tune=arm926ej-s --with-float=soft --with-abi=aapcs-linux";;
+armv6-*-*-*eabihf)  _arch_configure="--with-arch=armv6zk --with-tune=arm1176jzf-s --with-fpu=vfp --with-float=hard --with-abi=aapcs-linux";;
+armv7-*-*-*eabihf)  _arch_configure="--with-arch=armv7-a --with-tune=generic-armv7-a --with-fpu=vfpv3-d16 --with-float=hard --with-abi=aapcs-linux --with-mode=thumb";;
+mips-*-*-*)         _arch_configure="--with-arch=mips32  --with-mips-plt --with-float=soft --with-abi=32";;
+mips64-*-*-*)       _arch_configure="--with-arch=mips3   --with-tune=mips64 --with-mips-plt --with-float=soft --with-abi=64";;
+mips64el-*-*-*)     _arch_configure="--with-arch=mips3   --with-tune=mips64 --with-mips-plt --with-float=soft --with-abi=64";;
+mipsel-*-*-*)       _arch_configure="--with-arch=mips32  --with-mips-plt --with-float=soft --with-abi=32";;
+powerpc-*-*-*)      _arch_configure="--enable-secureplt  --enable-decimal-float=no";;
+powerpc64*-*-*-*)   _arch_configure="--with-abi=elfv2    --enable-secureplt --enable-decimal-float=no --enable-targets=powerpcle-linux";;
+i486-*-*-*)         _arch_configure="--with-arch=i486    --with-tune=generic --enable-cld";;
+i586-*-*-*)         _arch_configure="--with-arch=i586    --with-tune=generic --enable-cld";;
+s390x-*-*-*)        _arch_configure="--with-arch=z196    --with-tune=zEC12 --with-zarch --with-long-double-128 --enable-decimal-float";;
 esac
 
 case "$CTARGET_ARCH" in
-mips*)	_hash_style_configure="--with-linker-hash-style=sysv" ;;
-*)	_hash_style_configure="--with-linker-hash-style=gnu" ;;
+mips*)    _hash_style_configure="--with-linker-hash-style=sysv" ;;
+*)    _hash_style_configure="--with-linker-hash-style=gnu" ;;
 esac
 
 if kiss list musl; then
-	# musl does not support mudflap, or libsanitizer
-	# libmpx uses secure_getenv and struct _libc_fpstate not present in musl
-	# alpine musl provides libssp_nonshared.a, so we don't need libssp either
-	_libc_configure="--disable-libssp --disable-libmpx --disable-libmudflap --disable-libsanitizer"
-	_symvers="--disable-symvers"
-	export libat_cv_have_ifunc=no
+    # musl does not support mudflap, or libsanitizer
+    # libmpx uses secure_getenv and struct _libc_fpstate not present in musl
+    # alpine musl provides libssp_nonshared.a, so we don't need libssp either
+    _libc_configure="--disable-libssp --disable-libmpx --disable-libmudflap --disable-libsanitizer"
+    _symvers="--disable-symvers"
+    export libat_cv_have_ifunc=no
 fi
 
 _bootstrap_configure="--enable-shared --enable-threads --enable-tls"
 _languages=c,c++,java
 _ver=6
-echo "Building the following:"
-echo ""
-echo "  CBUILD=$CBUILD"
-echo "  CHOST=$CHOST"
-echo "  CTARGET=$CTARGET"
-echo "  CTARGET_ARCH=$CTARGET_ARCH"
-echo "  CTARGET_LIBC=$CTARGET_LIBC"
-echo "  languages=$_languages"
-echo "  arch_configure=$_arch_configure"
-echo "  libc_configure=$_libc_configure"
-echo "  bootstrap_configure=$_bootstrap_configure"
-echo "  hash_style_configure=$_hash_style_configure"
-echo ""
 
 export FILE=Posix
 
 mkdir -p gcc-build
 cd gcc-build
 ../configure \
-	--prefix=/usr \
-	--mandir=/usr/share/man \
-	--infodir=/usr/share/info \
-	--build="$(cc -dumpmachine)"\
-	--program-suffix="-$_ver" \
-	--enable-checking=release \
-	--disable-bootstrap \
-	--disable-fixed-point \
-	--disable-libstdcxx-pch \
-	--disable-multilib \
-	--disable-nls \
-	--disable-werror \
-	--disable-libatomic \
-	--disable-libgomp \
-	--disable-libitm \
-	--disable-libquadmath \
-	$_symvers \
-	--enable-__cxa_atexit \
-	--enable-default-pie \
-	--enable-cloog-backend \
-	--enable-version-specific-runtime-libs \
-	--enable-languages=$_languages \
-	$_arch_configure \
-	$_libc_configure \
-	$_bootstrap_configure \
-	--with-system-zlib \
-	--with-jvm-root=/usr/lib/jvm/java-1.5-gcj \
-	$_hash_style_configure
-make # fails here
+    --prefix=/usr \
+    --mandir=/usr/share/man \
+    --infodir=/usr/share/info \
+    --build="$(cc -dumpmachine)"\
+    --program-suffix="-$_ver" \
+    --enable-checking=release \
+    --disable-bootstrap \
+    --disable-fixed-point \
+    --disable-libstdcxx-pch \
+    --disable-multilib \
+    --disable-nls \
+    --disable-werror \
+    --disable-libatomic \
+    --disable-libgomp \
+    --disable-libitm \
+    --disable-libquadmath \
+    $_symvers \
+    --enable-__cxa_atexit \
+    --enable-default-pie \
+    --enable-cloog-backend \
+    --enable-version-specific-runtime-libs \
+    --enable-languages=$_languages \
+    $_arch_configure \
+    $_libc_configure \
+    $_bootstrap_configure \
+    --with-system-zlib \
+    --with-jvm-root=/usr/lib/jvm/java-1.5-gcj \
+    $_hash_style_configure
+make
 
 make -j1 DESTDIR="$1" install
 echo here
@@ -112,21 +97,21 @@ ln -s gcc-$_ver "$1"/usr/bin/cc-$_ver
 # we dont support gcj -static
 # and saving 35MB is not bad.
 find "$1" -name libgcj.a -o -name libgtkpeer.a \
-	-o -name libgjsmalsa.a -o -name libgcj-tools.a \
-	-o -name libjvm.a -o -name libgij.a -o -name libgcj_bc.a \
-	-o -name libjavamath.a \
-	| xargs rm -f
+    -o -name libgjsmalsa.a -o -name libgcj-tools.a \
+    -o -name libjvm.a -o -name libgij.a -o -name libgcj_bc.a \
+    -o -name libjavamath.a \
+    | xargs rm -f
 
 # strip debug info from some static libs
 $STRIP_FOR_TARGET -g `find "$1" \( -name \
-	-o -name libmudflap.a -o -name libmudflapth.a \
-	-o -name libgcc.a -o -name libgcov.a \
-	-o -name libitm.a -o -name libcaf\*.a \
-	-o -name libasan.a -o -name libtsan.a \) \
-	-a -type f`
+    -o -name libmudflap.a -o -name libmudflapth.a \
+    -o -name libgcc.a -o -name libgcov.a \
+    -o -name libitm.a -o -name libcaf\*.a \
+    -o -name libasan.a -o -name libtsan.a \) \
+    -a -type f`
 
 sed -i -e 's/lib: /&%{static:%eJava programs cannot be linked statically}/' \
-	"$1"/$_gcclibdir/libgcj.spec
+    "$1"/$_gcclibdir/libgcj.spec
 
 # avoid conlict with gcc
 mv "$1"/usr/lib/libcc1* "$1"/$_gcclibdir/
@@ -135,79 +120,45 @@ mv "$1"/usr/lib/libcc1* "$1"/$_gcclibdir/
 rm -f "$1"/usr/lib/libffi* "$1"/usr/share/man/man3/ffi*
 find "$1" -name 'ffi*.h' | xargs rm -f
 
-# remove conflicting files
-rm -f "$1"/usr/lib/gcc/$CHOST/lib/libgcc_s.so* \
-	"$1"/usr/lib/libgcc_s.so*
-
-local gdblib=${CTARGET}lib
-for i in $(find "$1"/usr/$gdblib/ -type f -maxdepth 1 -name "*-gdb.py" ); do
-	mkdir -p "$1"/usr/share/gdb/python/auto-load/usr/$gdblib
-	mv "$i" "$1"/usr/share/gdb/python/auto-load/usr/$gdblib/
-done
-
-pkgdesc="GNU C++ standard runtime library"
-depends=
-
-mkdir -p "$subpkgdir"/$_gcclibdir
-mv "$1"/$_gcclibdir/libstdc++.so.* "$subpkgdir"/$_gcclibdir/
-
-pkgdesc="GNU C++ standard library and compiler"
-depends="libstdc++=$_gccrel gcc=$_gccrel libc-dev"
-mkdir -p "$subpkgdir/$_gcclibexec" \
-	"$subpkgdir"/usr/bin \
-	"$subpkgdir"/$_gcclibdir/include
-
-mv "$1/$_gcclibexec/cc1plus" "$subpkgdir/$_gcclibexec/"
-
-mv "$1"/$_gcclibdir/*++* "$subpkgdir"/$_gcclibdir/
-mv "$1"/$_gcclibdir/include/c++ "$subpkgdir"/$_gcclibdir/include/
-mv "$1"/usr/bin/*++* "$subpkgdir"/usr/bin/
-
-pkgdesc="Java support for GCC"
-depends="zlib-dev gcc6=$_gccrel libgcj6=$_gccrel"
-
-mkdir -p "$subpkgdir"/usr/bin "$subpkgdir"/usr/lib "$subpkgdir"/$_gcclibdir/
+mkdir -p "$1"/usr/bin "$1"/usr/lib "$1"/$_gcclibdir/
 cd "$1"/usr/bin
-mv gcj-$_ver gcj-dbtool-$_ver gjavah-$_ver gcjh-$_ver jcf-dump-$_ver "$subpkgdir"/usr/bin/
+mv gcj-$_ver gcj-dbtool-$_ver gjavah-$_ver gcjh-$_ver jcf-dump-$_ver "$1"/usr/bin/
 cd "$1"
 for i in $(find usr/ -name ecj1 -o -name jc1 -o -name jvgenmain); do
-	mkdir -p "$subpkgdir"/${i%/*}
-	mv "$1"/$i "$subpkgdir"/$i
+    mkdir -p "$1"/${i%/*}
+    mv "$1"/$i "$1"/$i
 done
 for i in "$1"/$_gcclibdir/libgcj*.so; do
-	if [ -L "$i" ]; then
-		mv "$i" "$subpkgdir"/usr/lib/
-	fi
+    if [ -L "$i" ]; then
+        mv "$i" "$1"/usr/lib/
+    fi
 done
 mv "$1"/$_gcclibdir/libgij.so \
-	"$1"/$_gcclibdir/libgcj.spec \
-	"$subpkgdir"/$_gcclibdir/
+    "$1"/$_gcclibdir/libgcj.spec \
+    "$1"/$_gcclibdir/
 
-pkgdesc="Java runtime library for gcc"
-depends=
-
-mkdir -p "$subpkgdir"/usr/bin
+mkdir -p "$1"/usr/bin
 cd "$1"/usr/bin
 mv aot-compile-$_ver gappletviewer-$_ver gc-analyze-$_ver gij-$_ver \
-	gjar-$_ver gjarsigner-$_ver gkeytool-$_ver gnative2ascii-$_ver gorbd-$_ver \
-	grmic-$_ver grmid-$_ver grmiregistry-$_ver gserialver-$_ver \
-	gtnameserv-$_ver jv-convert-$_ver rebuild-gcj-db-$_ver \
-	"$subpkgdir"/usr/bin/
+    gjar-$_ver gjarsigner-$_ver gkeytool-$_ver gnative2ascii-$_ver gorbd-$_ver \
+    grmic-$_ver grmid-$_ver grmiregistry-$_ver gserialver-$_ver \
+    gtnameserv-$_ver jv-convert-$_ver rebuild-gcj-db-$_ver \
+    "$1"/usr/bin/
 cd "$1"
 for i in $(find usr/lib -name jc1 -o -name jvgenmain); do
-	mkdir -p "$subpkgdir"/${i%/*}
-	mv "$1"/$i "$subpkgdir"/$i
+    mkdir -p "$1"/${i%/*}
+    mv "$1"/$i "$1"/$i
 done
-mkdir -p "$subpkgdir"/$_gcclibdir
+mkdir -p "$1"/$_gcclibdir
 mv "$1"/$_gcclibdir/gcj-* \
-	"$1"/$_gcclibdir/logging.properties \
-	"$1"/$_gcclibdir/security \
-	"$subpkgdir"/$_gcclibdir
+    "$1"/$_gcclibdir/logging.properties \
+    "$1"/$_gcclibdir/security \
+    "$1"/$_gcclibdir
 
 mv "$1"/$_gcclibdir/libgcj_bc.so \
-	"$1"/$_gcclibdir/libgcj*.so.* \
-	"$1"/$_gcclibdir/libgij.so.* \
-	"$subpkgdir"/usr/lib
+    "$1"/$_gcclibdir/libgcj*.so.* \
+    "$1"/$_gcclibdir/libgij.so.* \
+    "$1"/usr/lib
 
-mkdir -p "$subpkgdir"/usr/share/
-mv "$1"/usr/share/java "$subpkgdir"/usr/share/
+mkdir -p "$1"/usr/share/
+mv "$1"/usr/share/java "$1"/usr/share/
