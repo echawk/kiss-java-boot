@@ -66,8 +66,7 @@ echo "  bootstrap_configure=$_bootstrap_configure"
 echo "  hash_style_configure=$_hash_style_configure"
 echo ""
 
-export PLATFORM=Posix
-export FILE=
+export FILE=Posix
 
 mkdir -p gcc-build
 cd gcc-build
@@ -101,11 +100,12 @@ cd gcc-build
 	--with-jvm-root=/usr/lib/jvm/java-1.5-gcj \
 	$_hash_style_configure
 make # fails here
-echo here
-exit 1
 
-cd "$_builddir"
 make -j1 DESTDIR="$1" install
+echo here
+exit 0
+
+# TODO: cleanup
 
 ln -s gcc-$_ver "$1"/usr/bin/cc-$_ver
 
