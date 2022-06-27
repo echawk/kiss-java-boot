@@ -66,6 +66,9 @@ echo "  bootstrap_configure=$_bootstrap_configure"
 echo "  hash_style_configure=$_hash_style_configure"
 echo ""
 
+export PLATFORM=Posix
+export FILE=
+
 mkdir -p gcc-build
 cd gcc-build
 ../configure \
