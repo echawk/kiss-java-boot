@@ -73,7 +73,8 @@ kiss build gnuclasspath
 
 ## JDK 1
 
-JDK 1 is the final bootstrap JDK, and is able to compile IcedTea2 (Java 7).
+JDK 1 is the second to last bootstrap JDK and is used to compile GCJ
+(GNU Java Compiler).
 
 software                 | version | desc
 --------:                |--------:|-----:
@@ -90,6 +91,24 @@ kiss build classpath-jamvm-wrappers
 kiss build gnuclasspath
 kiss build jamvm
 kiss build ecj
+```
+
+## JDK 2
+
+JDK 2 contains the final bootstrap JDK, that being GCJ. We are able to build
+it now because we have all of the requisite software built.
+
+software        | version | desc
+--------:       |--------:|-----:
+gcj6            | 6.4.0   | GNU Java Compiler
+java-gcj-compat | 6.4.0   | Alpine's wrapper to have GCJ behave like OpenJDK.
+
+To build & Install:
+```shell
+cd jdk2
+export KISS_PATH="$PWD:$KISS_PATH"
+kiss build gcj6
+kiss build java-gcj-compat
 ```
 
 ## IcedTea2 (Java 7)
