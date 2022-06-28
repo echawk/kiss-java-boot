@@ -34,6 +34,7 @@ export HOTSPOT_BUILD_JOBS="$(nproc)"
 export PATH="$JAVA_HOME/bin:/usr/share/apache-ant/bin:$PATH"
 export DISTRIBUTION_PATCHES=""
 
+export CFLAGS="$CFLAGS -fcommon"
 export EXTRA_CPP_FLAGS="$CXXFLAGS -std=gnu++98 -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
 export EXTRA_CFLAGS="$CFLAGS -std=gnu++98 -Wno-error -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
 
@@ -66,6 +67,7 @@ done
     --disable-system-pcsc \
     --disable-system-sctp \
     --without-rhino \
+    --with-jar=/usr/bin/fastjar \
     --with-openjdk-src-zip=$PWD/openjdk-$2.tar.bz2 \
     --with-hotspot-src-zip=$PWD/hotspot-$2.tar.bz2 \
     --with-corba-src-zip=$PWD/corba-$2.tar.bz2 \
@@ -75,12 +77,14 @@ done
     --with-langtools-src-zip=$PWD/langtools-$2.tar.bz2 \
     --with-jdk-home=$JAVA_HOME
 #if [ -z $BOOTSTRAP ]; then
-    # make SHELL=/usr/bin/bash # Commented out for now because of: 'unzip: crc error'
+#    make SHELL=/usr/bin/bash # Commented out for now because of: 'unzip: crc error'
+#    outdir=build
 #else
     make SHELL=/usr/bin/bash icedtea-boot
+    outdir=build-boot
 #fi
 
 mkdir -p "$1/$jdk_prefix"
-cp -a openjdk.build-boot/j2sdk-image/* "$1/$jdk_prefix"
-cp -a openjdk.build-boot/include       "$1/$jdk_prefix"
+cp -a openjdk.$outdir/j2sdk-image/* "$1/$jdk_prefix"
+cp -a openjdk.$outdir/include       "$1/$jdk_prefix"
 rm -rf "$1/$jdk_prefix/src.zip"
