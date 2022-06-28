@@ -41,6 +41,14 @@ What's odd is that when building openjdk7 with itself (not using the
 icedtea-boot target), a CRC error also occurs. That leads me to think that there
 is some issue with openjdk7's zip implementation.
 
+UPDATE: this issue seems to have been *slightly* fixed, by instead using
+fastjar as the jar implementation during build, however now there are bigger
+build issues.
+
+When trying to compile openjdk7 with itself, the build fails spectacularly: [log](https://0x0.st/oSEF.ddgpJC)
+
+When trying to build openjdk8 with openjdk7, the build also fails: [log](https://0x0.st/oSEC.GKgGHb)
+
 # Installation
 
 The process for installation is almost entirely manual, and I do *not* recommend
