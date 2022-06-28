@@ -16,9 +16,13 @@ The following are currently packaged:
 * classpath-jamvm-wrappers
 * gnuclasspath (git)
 * jamvm (2.0.0)
+* ecj (4.2.1)
+* gcj (6.4.0)
+* java-gcj-compat (6.4.0)
+* icedtea2 (6.2.28)
 
 The following are WIP:
-* ecj (4.2.1)
+* openjdk8
 
 If you have any experience or are able to get a package to compile, please submit a PR or issue!
 Any and all help is appreciated!
@@ -116,18 +120,18 @@ kiss build java-gcj-compat
 IcedTea2 is the first OpenJDK that we are able to build and is able to build
 OpenJDK 8 (Java 8).
 
-NOTE: Currently this is a work in progress, as the build script is not working.
+To build & Install:
+```shell
+export KISS_PATH="$PWD:$KISS_PATH"
+kiss build icedtea2
+```
 
-Current [issue](https://github.com/ehawkvu/kiss-java-boot/blob/master/icedtea2/build#L87).
+## OpenJDK8 (Java 8)
+
+WIP.
 
 Useful links:
-* Alpine's buildscript [here](https://git.alpinelinux.org/aports/tree/community/openjdk7/APKBUILD).
-* Void's buildscript [here](https://github.com/void-linux/void-packages/blob/master/srcpkgs/openjdk7-bootstrap/template).
-* Guix's buildscript [here](https://git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/java.scm#n770).
-
-Alternatively, we could build IcedTea2 with GCC's java compiler, gcj.
-* Alpine's buildscript [here](https://git.alpinelinux.org/aports/tree/community/gcc6/APKBUILD).
-* Void's buildscript [here](https://github.com/void-linux/void-packages/blob/master/srcpkgs/gcc6/template).
-* AUR's buildscript [here](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=gcc6).
+* Alpine's buildscript [here](https://git.alpinelinux.org/aports/tree/community/openjdk8/APKBUILD).
+* Void's buildscript [here](https://github.com/void-linux/void-packages/blob/master/srcpkgs/openjdk8/template).
 
 Help is very much appreciated!
