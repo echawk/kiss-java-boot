@@ -64,6 +64,7 @@ bash ./configure \
     --disable-docs \
     --disable-system-pcsc \
     --disable-system-sctp \
+    --with-jar=/usr/bin/fastjar \
     --with-curves="nist+" \
     --with-hotspot-build=default \
     --with-openjdk-src-zip=$PWD/openjdk-$2.tar.xz \
