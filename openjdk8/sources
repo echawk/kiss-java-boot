@@ -1,0 +1,17 @@
+https://icedtea.classpath.org/download/source/icedtea-VERSION.tar.xz
+https://icedtea.classpath.org/download/drops/icedtea8/VERSION/openjdk-git.tar.xz?no-extract
+patches/icedtea-JDK-6515172_0_revert-jdk8-version.patch
+patches/icedtea-JDK-6515172_1_apply-jdk9-version.patch
+patches/icedtea-autoconf-config.patch
+patches/icedtea-hotspot-insantiate-arrayallocator.patch
+patches/icedtea-hotspot-musl-ppc.patch
+patches/icedtea-hotspot-musl.patch
+patches/icedtea-hotspot-noagent-musl.patch
+patches/icedtea-issue13032.patch
+patches/icedtea-jdk-close-fds.patch
+patches/icedtea-jdk-disable-vfork.patch
+patches/icedtea-jdk-execinfo.patch
+patches/icedtea-jdk-fix-ipv6-init.patch
+patches/icedtea-jdk-fix-libjvm-load.patch
+patches/icedtea-jdk-includes.patch
+patches/icedtea-jdk-musl.patch

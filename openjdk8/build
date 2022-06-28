@@ -1,0 +1,73 @@
+#!/bin/sh -e
+
+# https://icedtea.classpath.org/download/drops/icedtea8/VERSION/openjdk-git.tar.xz?no-extract
+
+# Busybox sha256 does not support longopts
+sed -e "s/--check/-c/g" -i Makefile.am
+
+mkdir -p patches
+for p in *.patch; do
+    case $p in
+        icedtea-*.patch)
+            cp $p patches/
+            ;;
+        *.patch)
+            patch -p1 < "$p"
+            ;;
+    esac
+done
+
+./autogen.sh
+
+jdk_prefix=/usr/lib/jvm/java-1.8-openjdk
+
+# using ccache causes ICEs with pregenerated headers
+export CCACHE_DISABLE=1
+
+export ALT_PARALLEL_COMPILE_JOBS="$(nproc)"
+export HOTSPOT_BUILD_JOBS="$(nproc)"
+export JAVA_HOME="/usr/lib/jvm/java-1.7-openjdk"
+export PATH="$JAVA_HOME/bin:/usr/share/apache-ant/bin:$PATH"
+export DISTRIBUTION_PATCHES=""
+
+for p in patches/*.patch; do
+    case $p in
+        patches/icedtea-*.patch)
+            DISTRIBUTION_PATCHES="$DISTRIBUTION_PATCHES $p"
+            ;;
+    esac
+done
+
+mv openjdk-git.tar.xz\?no-extract openjdk-$2.tar.xz
+
+arch=$(uname -m)
+case $arch in
+    x86_64|x86|aarch64) _jfr="--enable-jfr";;
+    *)                  _jfr="--disable-jfr";;
+esac
+
+bash ./configure \
+    --prefix="$jdk_prefix" \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    --infodir=/usr/share/info \
+    --localstatedir=/var \
+    --disable-dependency-tracking \
+    --disable-downloading \
+    --disable-precompiled-headers \
+    --disable-docs \
+    --disable-system-pcsc \
+    --disable-system-sctp \
+    --with-parallel-jobs=$(nproc) \
+    --with-curves="nist+" \
+    --with-hotspot-build=default \
+    --with-openjdk-src-zip=$PWD/openjdk-$2.tar.xz \
+    $_jfr \
+    --with-jdk-home=$JAVA_HOME
+
+make SHELL=/usr/bin/bash
+
+mkdir -p "$1/$jdk_prefix"
+cp -a openjdk.build/j2sdk-image/* "$1/$jdk_prefix"
+cp -a openjdk.build/include       "$1/$jdk_prefix"
+rm -rf "$1/$jdk_prefix/src.zip"
