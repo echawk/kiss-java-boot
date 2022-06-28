@@ -22,10 +22,24 @@ The following are currently packaged:
 * icedtea2 (6.2.28)
 
 The following are WIP:
-* openjdk8
+* openjdk8 (3.22.0)
 
 If you have any experience or are able to get a package to compile, please submit a PR or issue!
 Any and all help is appreciated!
+
+# Requirements
+
+You'll need all of the software packaged under `extra/`, the unofficial
+community repo, as well as access to kiss-xorg.
+
+# Current Issue
+
+My current issue when building openjdk8 is a CRC error
+(full build log [here](https://0x0.st/oSgD.KDGklH)).
+
+What's odd is that when building openjdk7 with itself (not using the
+icedtea-boot target), a CRC error also occurs. That leads me to think that there
+is some issue with openjdk7's zip implementation.
 
 # Installation
 
@@ -128,7 +142,7 @@ kiss build icedtea2
 
 ## OpenJDK8 (Java 8)
 
-WIP.
+WIP. See above.
 
 Useful links:
 * Alpine's buildscript [here](https://git.alpinelinux.org/aports/tree/community/openjdk8/APKBUILD).
