@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-# https://icedtea.classpath.org/download/drops/icedtea8/VERSION/openjdk-git.tar.xz?no-extract
-
 # Busybox sha256 does not support longopts
 sed -e "s/--check/-c/g" -i Makefile.am
 
