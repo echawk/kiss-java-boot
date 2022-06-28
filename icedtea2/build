@@ -17,12 +17,20 @@ done
 
 ./autogen.sh
 
+jdk_prefix=/usr/lib/jvm/java-1.7-openjdk
+
 # using ccache causes ICEs with pregenerated headers
 export CCACHE_DISABLE=1
 
 export ALT_PARALLEL_COMPILE_JOBS="$(nproc)"
 export HOTSPOT_BUILD_JOBS="$(nproc)"
-export JAVA_HOME="/usr/lib/jvm/java-1.5-gcj"
+# Check for openjdk7, if it's installed, don't bootstrap
+#if [ -e $jdk_prefix ]; then
+#    export JAVA_HOME="$jdk_prefix"
+#else
+    export JAVA_HOME="/usr/lib/jvm/java-1.5-gcj"
+    export BOOTSTRAP=y
+#fi
 export PATH="$JAVA_HOME/bin:/usr/share/apache-ant/bin:$PATH"
 export DISTRIBUTION_PATCHES=""
 
@@ -37,7 +45,6 @@ for p in patches/*.patch; do
     esac
 done
 
-jdk_prefix=/usr/lib/jvm/java-1.7-openjdk
 for tarball in *.tar.bz2\?no-extract; do
     name="$(echo $tarball | cut -d'.' -f1)"
     case "$name" in
@@ -67,9 +74,11 @@ done
     --with-jdk-src-zip=$PWD/jdk-$2.tar.bz2 \
     --with-langtools-src-zip=$PWD/langtools-$2.tar.bz2 \
     --with-jdk-home=$JAVA_HOME
-
-make SHELL=/usr/bin/bash icedtea-boot
-#make SHELL=/usr/bin/bash # Commented out for now because of: 'unzip: crc error'
+#if [ -z $BOOTSTRAP ]; then
+    # make SHELL=/usr/bin/bash # Commented out for now because of: 'unzip: crc error'
+#else
+    make SHELL=/usr/bin/bash icedtea-boot
+#fi
 
 mkdir -p "$1/$jdk_prefix"
 cp -a openjdk.build-boot/j2sdk-image/* "$1/$jdk_prefix"
