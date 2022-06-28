@@ -22,7 +22,7 @@ export CCACHE_DISABLE=1
 
 #export ALT_PARALLEL_COMPILE_JOBS="$(nproc)"
 #export HOTSPOT_BUILD_JOBS="$(nproc)"
-export JAVA_HOME="/usr/lib/jvm/java-1.5-gcj/"
+export JAVA_HOME="/usr/lib/jvm/java-1.5-gcj"
 export PATH="$JAVA_HOME/bin:/usr/share/apache-ant/bin:$PATH"
 export DISTRIBUTION_PATCHES=""
 
