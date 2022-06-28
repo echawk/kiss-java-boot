@@ -68,11 +68,10 @@ done
     --with-langtools-src-zip=$PWD/langtools-$2.tar.bz2 \
     --with-jdk-home=$JAVA_HOME
 
-make icedtea-boot SHELL=/usr/bin/bash
-make
+make SHELL=/usr/bin/bash icedtea-boot
+#make SHELL=/usr/bin/bash # Commented out for now because of: 'unzip: crc error'
 
 mkdir -p "$1/$jdk_prefix"
-cp -a openjdk.build/j2sdk-image/* "$1/$jdk_prefix"
-cp -a openjdk.build/include       "$1/$jdk_prefix"
+cp -a openjdk.build-boot/j2sdk-image/* "$1/$jdk_prefix"
+cp -a openjdk.build-boot/include       "$1/$jdk_prefix"
 rm -rf "$1/$jdk_prefix/src.zip"
-rm -rf "$1/usr/lib/bin"

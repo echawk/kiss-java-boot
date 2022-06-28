@@ -1,7 +1,11 @@
 cups
+giflib
 krb5
 lcms
 libX11
+libXext
+libjpeg-turbo
+libpng
 libxslt
 nss
 wget
