@@ -1,31 +1,40 @@
 #!/bin/sh -e
 
-ls -lah
+# Busybox sha256 does not support longopts
+sed -e "s/--check/-c/g" -i Makefile.am
 
-for p in build-*.patch; do
-    patch -p1 < $p
+mkdir -p patches
+for p in *.patch; do
+    case $p in
+        icedtea-*.patch)
+            cp $p patches/
+            ;;
+        *.patch)
+            patch -p1 < "$p"
+            ;;
+    esac
 done
+
+./autogen.sh
 
 # using ccache causes ICEs with pregenerated headers
 export CCACHE_DISABLE=1
 
 #export ALT_PARALLEL_COMPILE_JOBS="$(nproc)"
 #export HOTSPOT_BUILD_JOBS="$(nproc)"
-
-export CLASSPATH="/usr/lib/rt.jar:/usr/lib/tools.jar"
-export JAVACFLAGS="-cp /usr/lib/rt.jar:/usr/lib/tools.jar"
-export JAVA_HOME=/usr
+export JAVA_HOME="/usr/lib/jvm/java-1.5-gcj/"
+export PATH="$JAVA_HOME/bin:/usr/share/apache-ant/bin:$PATH"
+export DISTRIBUTION_PATCHES=""
 
 # from alpine: disable jvm-breaking optimizations and c++ std
 export EXTRA_CPP_FLAGS="$CXXFLAGS -std=gnu++98 -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
 export EXTRA_CFLAGS="$CFLAGS -std=gnu++98 -Wno-error -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
 
-export CFLAGS="-fcommon"
-
-#TODO: add Void's patches to this package.
-for patch in kiss-patches/*; do
-    case "$patch" in
-        kiss-patches/icedtea-*.patch) DISTRIBUTION_PATCHES="$DISTRIBUTION_PATCHES $patch"
+for p in patches/*; do
+    case $p in
+        icedtea-*.patch)
+            export DISTRIBUTION_PATCHES="$DISTRIBUTION_PATCHES $p"
+            ;;
     esac
 done
 
@@ -46,22 +55,20 @@ for tarball in *.tar.bz2\?no-extract; do
     esac
 done
 
-# From Alpine: Busybox sha256 does not support longopts
-sed "s/--check/-c/g" Makefile.am > _
-mv -f _ Makefile.am
-
-./autogen.sh
-
-export DESTDIR=""
-
-# FIXME: figure out why this variables need to be set to true.
-it_cv_cp39408_javah=true \
-    CONFIG_STATUS=$PWD/config.status \
-    ./configure \
-    --srcdir=$PWD \
+./configure \
     --prefix="$jdk_prefix" \
-    --with-parallel-jobs="$(nproc)" \
-    --with-jdk-home=/usr \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    --infodir=/usr/share/info \
+    --localstatedir=/var \
+    --disable-dependency-tracking \
+    --disable-downloading \
+    --disable-arm32-jit \
+    --disable-docs \
+    --disable-system-gtk \
+    --disable-system-pcsc \
+    --disable-system-sctp \
+    --without-rhino \
     --with-openjdk-src-dir=$PWD/openjdk.src \
     --with-hotspot-src-zip=$PWD/hotspot-$2.tar.bz2 \
     --with-corba-src-zip=$PWD/corba-$2.tar.bz2 \
@@ -69,34 +76,12 @@ it_cv_cp39408_javah=true \
     --with-jaxws-src-zip=$PWD/jaxws-$2.tar.bz2 \
     --with-jdk-src-zip=$PWD/jdk-$2.tar.bz2 \
     --with-langtools-src-zip=$PWD/langtools-$2.tar.bz2 \
-    --with-ecj=/usr/bin/javac \
-    --with-jdk-home=/usr \
-    --with-java=/usr/bin/jamvm \
-    --with-jar=/usr/bin/gjar \
-    --without-rhino \
-    --enable-system-lcms \
-    --enable-bootstrap \
-    --enable-nss \
-    --disable-system-pcsc \
-    --disable-downloading \
-    --disable-tests \
-    --disable-system-sctp \
-    --disable-dependency-tracking \
-    --disable-downloading \
-    --disable-arm32-jit \
-    --disable-system-jpeg \
-    --disable-compile-against-syscalls \
-    --disable-system-gtk || true
+    --with-jdk-home=$JAVA_HOME
 
-sleep 10000000
-
-# FIXME: figure out why Makefile.in is being removed during the config process.
-#        - Makefile.in is **not** being removed
-#      - For some reason (unknown atm) the config.status script that
-#      `./configure` makes is generated in the parent directory for kiss, this
-#      is typically '/tmp/kiss/[0-9]/build'. I'm trying to figure out why.
+make -j1 icedtea-boot SHELL=/usr/bin/bash
+make -j1
+echo here
 exit 1
-make -j1 SHELL=/usr/bin/bash icedtea-boot
 
 mkdir -p "$1/$jdk_prefix"
 cp -a openjdk.build-boot/j2sdk-image/* "$1/$jdk_prefix"

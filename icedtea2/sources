@@ -6,16 +6,19 @@ https://icedtea.classpath.org/download/drops/icedtea7/VERSION/jaxws.tar.bz2?no-e
 https://icedtea.classpath.org/download/drops/icedtea7/VERSION/jdk.tar.bz2?no-extract
 https://icedtea.classpath.org/download/drops/icedtea7/VERSION/langtools.tar.bz2?no-extract
 https://icedtea.classpath.org/download/drops/icedtea7/VERSION/hotspot.tar.bz2?no-extract
-patches/icedtea-cpio.patch                 kiss-patches/
-patches/icedtea-hotspot-musl-ppc.patch     kiss-patches/
-patches/icedtea-hotspot-musl.patch         kiss-patches/
-patches/icedtea-hotspot-noagent-musl.patch kiss-patches/
-patches/icedtea-hotspot-uclibc-fixes.patch kiss-patches/
-patches/icedtea-jdk-execinfo.patch         kiss-patches/
-patches/icedtea-jdk-fix-build.patch        kiss-patches/
-patches/icedtea-jdk-fix-ipv6-init.patch    kiss-patches/
-patches/icedtea-jdk-musl.patch             kiss-patches/
-patches/icedtea-jdk-no-soname.patch        kiss-patches/
-patches/icedtea-jdk-xattr.patch            kiss-patches/
-patches/icedtea-pr64174.patch              kiss-patches/
-patches/build-fix-xattr-include.patch
+patches/fix-xattr-include.patch
+patches/icedtea-cpio.patch
+patches/icedtea-hotspot-fix-nullcheck.patch
+patches/icedtea-hotspot-musl-ppc.patch
+patches/icedtea-hotspot-musl.patch
+patches/icedtea-hotspot-noagent-musl.patch
+patches/icedtea-hotspot-uclibc-fixes.patch
+patches/icedtea-jdk-disable-vfork.patch
+patches/icedtea-jdk-execinfo.patch
+patches/icedtea-jdk-fix-build.patch
+patches/icedtea-jdk-fix-compile-optional.patch
+patches/icedtea-jdk-fix-gcc10.patch
+patches/icedtea-jdk-fix-ipv6-init.patch
+patches/icedtea-jdk-musl.patch
+patches/icedtea-jdk-no-soname.patch
+patches/icedtea-jdk-xattr.patch
