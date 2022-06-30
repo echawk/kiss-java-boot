@@ -22,7 +22,7 @@ cp "$KISS_ROOT/usr/share/java/ecj-bootstrap.jar" ecj.jar
 
 echo $2 > gcc/BASE-VER
 
-CTARGET="$(gcc -dumpmachine)"
+CTARGET="$(cc -dumpmachine)"
 
 case "$CTARGET" in
 aarch64-*-*-*)     _arch_configure="--with-arch=armv8-a --with-abi=lp64";;
