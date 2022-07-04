@@ -1,10 +1,10 @@
 #!/bin/sh -e
 
 # Not sure why this fixes the check for GCC, but it works...
-export CC=gcc
-export CXX=g++
+export CC=gcc-6
+export CXX=g++-6
 
-# Busybox sha256 does not support longopts
+# Busybox sha256 does not support longopts.
 sed -e "s/--check/-c/g" -i Makefile.am
 
 mkdir -p patches
@@ -23,11 +23,11 @@ done
 
 jdk_prefix=/usr/lib/jvm/java-1.8-openjdk
 
-# using ccache causes ICEs with pregenerated headers
+# Using ccache causes ICEs with pregenerated headers.
 export CCACHE_DISABLE=1
 
-#export ALT_PARALLEL_COMPILE_JOBS="$(nproc)"
-#export HOTSPOT_BUILD_JOBS="$(nproc)"
+export ALT_PARALLEL_COMPILE_JOBS="$(nproc)"
+export HOTSPOT_BUILD_JOBS="$(nproc)"
 export JAVA_HOME="/usr/lib/jvm/java-1.7-openjdk"
 export PATH="$JAVA_HOME/bin:/usr/share/apache-ant/bin:$PATH"
 export DISTRIBUTION_PATCHES=""
@@ -51,7 +51,6 @@ case $arch in
     *)                  _jfr="--disable-jfr";;
 esac
 
-#--with-parallel-jobs=$(nproc) \
 bash ./configure \
     --prefix="$jdk_prefix" \
     --sysconfdir=/etc \
@@ -64,6 +63,7 @@ bash ./configure \
     --disable-docs \
     --disable-system-pcsc \
     --disable-system-sctp \
+    --with-parallel-jobs=$(nproc) \
     --with-jar=/usr/bin/fastjar \
     --with-curves="nist+" \
     --with-hotspot-build=default \
@@ -71,7 +71,7 @@ bash ./configure \
     $_jfr \
     --with-jdk-home=$JAVA_HOME
 
-make -j1 SHELL=/usr/bin/bash COMPILER_WARNINGS_FATAL="false"
+make SHELL=/usr/bin/bash COMPILER_WARNINGS_FATAL="false"
 
 mkdir -p "$1/$jdk_prefix"
 cp -a openjdk.build/j2sdk-image/* "$1/$jdk_prefix"
