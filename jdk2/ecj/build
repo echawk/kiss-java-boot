@@ -1,0 +1,32 @@
+#!/bin/sh -e
+
+mkdir -p src
+cd src
+gjar -xf ../*.jar*
+ls -lah
+
+export CLASSPATH="/usr/lib/rt.jar"
+export CLASSPATH="$CLASSPATH:/usr/share/classpath/tools.zip"
+export CLASSPATH="$CLASSPATH:/usr/share/classpath/glibj.zip"
+export CLASSPATH="$CLASSPATH:/usr/share/java/ecj-bootstrap.jar"
+export CLASSPATH="$CLASSPATH:$(find /usr/share/apache-ant/lib/ -name *.jar | tr '\n' ':' | sed 's/:$//')"
+
+find . -name *.java | xargs sed -i "s/@Override//g"
+
+rm -rf -- \
+    org/eclipse/jdt/core/JDTCompilerAdapter.java \
+    org/eclipse/jdt/internal/antadapter
+
+mkdir -p META-INF/
+cat <<EOF > META-INF/MANIFESTS.MF
+Manifest-Version: 1.0
+Main-Class: org.eclipse.jdt.internal.compiler.batch.Main
+EOF
+
+javac -version #$(find . -type f -name *.java)
+javac -cp "$CLASSPATH" -target 1.7 -source 1.7 $(find . -type f -name *.java)
+
+fastjar cvfm ecj-bootstrap.jar META-INF/MANIFESTS.MF .
+
+mkdir -p "$1/usr/share/java/"
+cp ecj-bootstrap.jar "$1/usr/share/java/"
