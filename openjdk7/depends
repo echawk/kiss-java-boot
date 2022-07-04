@@ -1,4 +1,5 @@
 cups
+gcj6 make
 giflib
 krb5
 lcms
@@ -8,4 +9,5 @@ libjpeg-turbo
 libpng
 libxslt
 nss
+perl make
 wget

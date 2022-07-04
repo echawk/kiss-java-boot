@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+export CC=gcc-6
+export CXX=g++-6
+
 # Busybox sha256 does not support longopts
 sed -e "s/--check/-c/g" -i Makefile.am
 
