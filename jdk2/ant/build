@@ -1,0 +1,22 @@
+#!/bin/sh -e
+
+sed "s/depends=\"jars,test-jar\"/depends=\"jars\"/" build.xml > _
+mv _ build.xml
+
+export JAVA_HOME="/usr/lib/jvm/java-1.5-gcj"
+export JAVACMD="$JAVA_HOME/bin/java"
+export JAVAC="$JAVA_HOME/bin/javac"
+
+mkdir tmp
+export HOME="tmp"
+touch tmp/.ant.properties
+
+sh bootstrap.sh -Ddist.dir=boot
+
+# Remove manuals & Windows stuff.
+rm -rf boot/manual
+rm -rf boot/bin/*.cmd
+rm -rf boot/bin/*.bat
+
+mkdir -p "$1/usr/share/apache-ant"
+cp -r boot/* "$1/usr/share/apache-ant"
