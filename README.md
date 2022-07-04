@@ -19,9 +19,9 @@ The following are currently packaged:
 * ecj (4.2.1)
 * gcj (6.4.0)
 * java-gcj-compat (6.4.0)
-* icedtea2 (6.2.28)
 
 The following are WIP:
+* openjdk7 (6.2.28)
 * openjdk8 (3.22.0)
 
 If you have any experience or are able to get a package to compile, please submit a PR or issue!
@@ -122,19 +122,25 @@ kiss build ecj
 ## JDK 2
 
 JDK 2 contains the final bootstrap JDK, that being GCJ. We are able to build
-it now because we have all of the requisite software built.
+it now because we have all of the requisite software built. We also build
+the latest release of ECJ that we can, and replace ant-bootstrap with ant.
 
 software        | version | desc
 --------:       |--------:|-----:
 gcj6            | 6.4.0   | GNU Java Compiler
 java-gcj-compat | 6.4.0   | Alpine's wrapper to have GCJ behave like OpenJDK.
+ant             | 1.8.4   | Java build tool (without environment script)
+ecj             | 4.4.2   | Incremental Java Compiler
 
 To build & Install:
 ```shell
 cd jdk2
 export KISS_PATH="$PWD:$KISS_PATH"
+kiss build ecj
 kiss build gcj6
 kiss build java-gcj-compat
+kiss remove ant-bootstrap
+kiss build ant
 ```
 
 ## IcedTea2 (Java 7)
