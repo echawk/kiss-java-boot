@@ -143,15 +143,15 @@ kiss remove ant-bootstrap
 kiss build ant
 ```
 
-## IcedTea2 (Java 7)
+## OpenJDK7 (Java 7)
 
-IcedTea2 is the first OpenJDK that we are able to build and is able to build
-OpenJDK 8 (Java 8).
+OpenJDK7 is the first OpenJDK that we are able to build and is able to build
+OpenJDK8 (Java 8).
 
 To build & Install:
 ```shell
 export KISS_PATH="$PWD:$KISS_PATH"
-kiss build icedtea2
+kiss build openjdk7
 ```
 
 ## OpenJDK8 (Java 8)
