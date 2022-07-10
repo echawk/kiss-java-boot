@@ -19,6 +19,8 @@ The following are currently packaged:
 * ecj (4.2.1)
 * gcj (6.4.0)
 * java-gcj-compat (6.4.0)
+* ecj (4.4.2)
+* ant (1.8.4)
 
 The following are WIP:
 * openjdk7 (6.2.28)
