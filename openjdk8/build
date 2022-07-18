@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
 # Not sure why this fixes the check for GCC, but it works...
-export CC=gcc-6
-export CXX=g++-6
+export CC=gcc
+export CXX=g++
 
 # Busybox sha256 does not support longopts.
 sed -e "s/--check/-c/g" -i Makefile.am
@@ -71,7 +71,7 @@ bash ./configure \
     $_jfr \
     --with-jdk-home=$JAVA_HOME
 
-make SHELL=/usr/bin/bash COMPILER_WARNINGS_FATAL="false"
+make
 
 mkdir -p "$1/$jdk_prefix"
 cp -a openjdk.build/j2sdk-image/* "$1/$jdk_prefix"
