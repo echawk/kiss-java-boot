@@ -13,5 +13,5 @@ patches/icedtea-jdk-disable-vfork.patch
 patches/icedtea-jdk-execinfo.patch
 patches/icedtea-jdk-fix-ipv6-init.patch
 patches/icedtea-jdk-fix-libjvm-load.patch
-#patches/icedtea-jdk-includes.patch # Currently fails to apply: https://0x0.st/oSx2.AeigAO
+patches/icedtea-jdk-includes.patch
 patches/icedtea-jdk-musl.patch

@@ -61,8 +61,10 @@ bash ./configure \
     --disable-downloading \
     --disable-precompiled-headers \
     --disable-docs \
+    --disable-tests \
     --disable-system-pcsc \
     --disable-system-sctp \
+    --enable-headless \
     --with-parallel-jobs=$(nproc) \
     --with-jar=/usr/bin/fastjar \
     --with-curves="nist+" \
