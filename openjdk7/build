@@ -67,6 +67,7 @@ done
     --disable-downloading \
     --disable-arm32-jit \
     --disable-docs \
+    --disable-tests \
     --disable-system-pcsc \
     --disable-system-sctp \
     --without-rhino \
