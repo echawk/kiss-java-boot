@@ -154,6 +154,11 @@ To build & Install:
 ```shell
 export KISS_PATH="$PWD:$KISS_PATH"
 kiss build openjdk7
+
+# openjdk7's jar implementation is totally busted.
+# So we rebuild fastjar, and switch to it for jar.
+kiss b fastjar
+kiss a fastjar /usr/lib/jvm/java-1.7-openjdk/bin/jar
 ```
 
 ## OpenJDK8 (Java 8)
