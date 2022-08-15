@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-export CC=clang
-
 : > nostrip # just in case
 
 for patch in *.patch; do

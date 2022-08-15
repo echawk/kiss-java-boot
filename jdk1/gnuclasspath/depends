@@ -1,4 +1,3 @@
-clang make
 file
 gettext-tiny make
 jikes
