@@ -3,6 +3,13 @@
 export CC=gcc
 export CXX=g++
 
+# Check for GNU patch.
+if ! patch --version | grep -q GNU; then
+    echo "'patch' needs to be GNU patch!"
+    echo "# kiss a patch /usr/bin/patch"
+    exit 1
+fi
+
 # Busybox sha256 does not support longopts
 sed -e "s/--check/-c/g" -i Makefile.am
 
@@ -25,8 +32,18 @@ jdk_prefix=/usr/lib/jvm/java-1.7-openjdk
 # using ccache causes ICEs with pregenerated headers
 export CCACHE_DISABLE=1
 
-export ALT_PARALLEL_COMPILE_JOBS="$(nproc)"
-export HOTSPOT_BUILD_JOBS="$(nproc)"
+case "$(uname)" in
+    Linux)
+        JOBS="$(nproc)"
+        ;;
+    FreeBSD | Darwin | OpenBSD)
+        JOBS="$(sysctl -n hw.ncpu)"
+        ;;
+esac
+
+
+export ALT_PARALLEL_COMPILE_JOBS="$JOBS"
+export HOTSPOT_BUILD_JOBS="$JOBS"
 # Check for openjdk7, if it's installed, don't bootstrap
 #if [ -e $jdk_prefix ]; then
 #    export JAVA_HOME="$jdk_prefix"
@@ -62,7 +79,7 @@ done
     --mandir=/usr/share/man \
     --infodir=/usr/share/info \
     --localstatedir=/var \
-    --with-parallel-jobs=$(nproc) \
+    --with-parallel-jobs="$JOBS" \
     --disable-dependency-tracking \
     --disable-downloading \
     --disable-arm32-jit \
