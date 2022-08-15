@@ -1,0 +1,72 @@
+#!/bin/sh -e
+
+# Not sure why this fixes the check for GCC, but it works...
+export CC=gcc
+export CXX=g++
+
+mkdir -p patches
+for p in *.patch; do
+    echo "[INFO] Applying $p"
+    patch -p1 < "$p"
+done
+
+# This doesn't fix the build. Now it fails to find another file.
+# I have no idea what is going on.
+# It would be nice if openjdk just played nice.
+#mkdir -p jdk/src/solaris/classes/sun/awt/org
+#cd jdk/src/solaris/classes/sun/awt/org
+#ln -s ../X11 xml
+#cd "$OLDPWD"
+
+sed -i '/^WARNINGS_ARE_ERRORS/ s/-Werror/-Wno-error/' \
+    hotspot/make/linux/makefiles/gcc.make
+
+jdk_prefix=/usr/lib/jvm/java-1.8-openjdk
+
+export JAVA_HOME="/usr/lib/jvm/java-1.7-openjdk"
+export PATH="$JAVA_HOME/bin:/usr/share/apache-ant/bin:$PATH"
+
+export EXTRA_CPP_FLAGS="$CXXFLAGS -std=gnu++98 -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
+export EXTRA_CFLAGS="-std=gnu++98 -Wno-error -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
+
+export CFLAGS="-fcommon -fno-exceptions"
+
+arch=$(uname -m)
+case $arch in
+    x86_64|x86|aarch64) _jfr="--enable-jfr";;
+    *)                  _jfr="--disable-jfr";;
+esac
+
+bash ./configure \
+    --disable-ccache \
+    --disable-precompiled-headers \
+    --disable-headful \
+    --enable-unlimited-crypto \
+    --with-boot-jdk="$JDK_HOME" \
+    --with-extra-cflags="$EXTRA_CFLAGS" \
+    --with-extra-cxxflags="$EXTRA_CPP_FLAGS" \
+    --with-extra-ldflags="$LDFLAGS" \
+    --with-jtreg=no \
+    --with-jobs=1 \
+    --with-num-cores=1 \
+    --with-milestone="fcs" \
+    --with-zlib=system \
+    $_jfr
+
+export CONFIG_SHELL=/usr/bin/bash
+
+unset MAKEFLAGS CFLAGS CXXFLAGS LDFLAGS
+make -j1 \
+    SHELL=bash \
+    JOBS="$(nproc)" \
+    LOG=debug \
+    CFLAGS_WARNINGS_ARE_ERRORS= \
+    COMPILER_WARNINGS_FATAL=false \
+    images || true
+
+sleep 1000000000000000000000000000000000000000000000000000000
+
+mkdir -p "$1/$jdk_prefix"
+cp -a openjdk.build/j2sdk-image/* "$1/$jdk_prefix"
+cp -a openjdk.build/include       "$1/$jdk_prefix"
+rm -rf "$1/$jdk_prefix/src.zip"

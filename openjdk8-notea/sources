@@ -1,0 +1,10 @@
+https://github.com/openjdk/jdk8u/archive/refs/tags/VERSION.tar.gz
+patches/0001_musl_hotspot.patch
+patches/0002_musl_hotspot_ppc.patch
+patches/0004_musl_hotspot_noagent.patch
+patches/0005_musl_fix_libjvm_load.patch
+patches/0006_musl_jdk.patch
+patches/0007_musl_jdk_includes.patch
+patches/0008_musl_jdk_execinfo.patch
+patches/0009_fix_jdk_ipv6_init.patch
+patches/0010_fix_jdk_close_fds.patch
