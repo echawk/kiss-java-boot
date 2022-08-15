@@ -1,4 +1,4 @@
-https://github.com/openjdk/jdk8u/archive/refs/tags/VERSION.tar.gz
+https://github.com/openjdk/jdk8u/archive/refs/tags/jdkVERSION.tar.gz
 patches/0001_musl_hotspot.patch
 patches/0002_musl_hotspot_ppc.patch
 patches/0004_musl_hotspot_noagent.patch
