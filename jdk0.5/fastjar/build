@@ -20,7 +20,7 @@ rmdir -p "$1/usr/lib" 2> /dev/null || true
 # Allow fastjar to be used in place of any other JVM's jar.
 if [ -d /usr/lib/jvm/ ]; then
     for d in /usr/lib/jvm/*; do
-        mkdir -p "$d/bin"
-        ln -s /usr/bin/fastjar "$d/bin/jar"
+        mkdir -p "$1$d/bin"
+        ln -s /usr/bin/fastjar "$1$d/bin/jar"
     done
 fi
