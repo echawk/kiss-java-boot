@@ -73,6 +73,7 @@ To build & Install:
 cd jdk0
 export KISS_PATH="$PWD:$KISS_PATH"
 kiss build jikes gnuclasspath jamvm
+cd ..
 ```
 
 ## JDK 0.5
@@ -97,6 +98,7 @@ kiss build fastjar ant-bootstrap
 sh /etc/profile.d/apache-ant-bootstrap.sh
 kiss build ecj ecj-javac-wrapper
 kiss build gnuclasspath
+cd ..
 ```
 
 ## JDK 1
@@ -119,6 +121,7 @@ kiss build classpath-jamvm-wrappers
 kiss build gnuclasspath
 kiss build jamvm
 kiss build ecj
+cd ..
 ```
 
 ## JDK 2
@@ -143,6 +146,7 @@ kiss build gcj6
 kiss build java-gcj-compat
 kiss remove ant-bootstrap
 kiss build ant
+cd ..
 ```
 
 ## OpenJDK7 (Java 7)

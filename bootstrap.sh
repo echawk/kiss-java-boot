@@ -7,8 +7,7 @@ script="$(mktemp)"
 sed -n '/```/=' README.md \
     | paste -d',' - - \
     | xargs -I{} sed -n '{}p' README.md \
-    | grep -v '```shell' \
-    | sed 's/```/cd ../' > "$script"
+    | grep -v '```' > "$script"
 
 sh -xe "$script"
 rm --  "$script"
