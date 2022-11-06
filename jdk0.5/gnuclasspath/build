@@ -3,7 +3,7 @@
 : > nostrip # just in case
 
 for patch in *.patch; do
-    patch -p1 < $patch
+    patch -p1 < "$patch"
 done
 
 ./configure \

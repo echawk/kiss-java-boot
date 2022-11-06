@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-unzip *.zip*
+unzip ./*.zip*
 ls -lah
 
 cat <<EOF > manifest
@@ -8,7 +8,8 @@ Manifest-Version: 1.0
 Main-Class: org.eclipse.jdt.internal.compiler.batch.Main\n
 EOF
 
-export CLASSPATH="$(find /usr/share/apache-ant/lib/ -name *.jar | tr '\n' ':'):/usr/lib/rt.jar"
+export CLASSPATH="$(find /usr/share/apache-ant/lib/ -name *.jar | tr '\n' ':')"
+export CLASSPATH="$CLASSPATH:/usr/lib/rt.jar"
 for f in /usr/share/classpath/tools.zip /usr/share/classpath/glibj.zip; do
     [ -e $f ] && export CLASSPATH="$CLASSPATH:$f"
 done

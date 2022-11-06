@@ -10,7 +10,7 @@ export CLASSPATH="/usr/lib/rt.jar"
 export ANT_OPTS="-Dbuild.compiler=jikes -Xnocompact -Xnoinlining"
 export BOOTJAVAC_OPTS="-nowarn"
 
-mkdir tmp
+mkdir -p tmp
 export HOME="tmp"
 touch tmp/.ant.properties
 
@@ -30,7 +30,7 @@ cp -r junk/* "$1/usr/share/apache-ant"
 
 # Make the new execuatables available in PATH & set ANT_HOME.
 mkdir -p   "$1/etc/profile.d"
-cat <<EOF > $1/etc/profile.d/apache-ant-bootstrap.sh
+cat <<EOF > "$1/etc/profile.d/apache-ant-bootstrap.sh"
 #!/bin/sh
 export PATH=\$PATH:/usr/share/apache-ant/bin
 export ANT_HOME=\${ANT_HOME:-/usr/share/apache-ant}
