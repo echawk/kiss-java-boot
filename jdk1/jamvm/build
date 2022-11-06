@@ -9,7 +9,7 @@ kiss list musl && {
 }
 
 for p in *.patch; do
-    patch -p1 < $p
+    patch -p1 < "$p"
 done
 
 # Remove precompiled classes
