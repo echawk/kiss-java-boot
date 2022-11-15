@@ -23,7 +23,6 @@ Manifest-Version: 1.0
 Main-Class: org.eclipse.jdt.internal.compiler.batch.Main
 EOF
 
-javac -version #$(find . -type f -name *.java)
 javac -cp "$CLASSPATH" -target 1.7 -source 1.7 $(find . -type f -name *.java)
 
 fastjar cvfm ecj-bootstrap.jar META-INF/MANIFESTS.MF .
