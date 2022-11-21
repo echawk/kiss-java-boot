@@ -32,8 +32,8 @@ export JAVA_HOME="/usr/lib/jvm/java-1.7-openjdk"
 export PATH="$JAVA_HOME/bin:/usr/share/apache-ant/bin:$PATH"
 export DISTRIBUTION_PATCHES=""
 
-export EXTRA_CPP_FLAGS="$CXXFLAGS -std=gnu++98 -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
-export EXTRA_CFLAGS="$CFLAGS -std=gnu++98 -Wno-error -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
+#export EXTRA_CPP_FLAGS="$CXXFLAGS -std=gnu++98 -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
+#export EXTRA_CFLAGS="$CFLAGS -std=gnu++98 -Wno-error -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
 
 for p in patches/*.patch; do
     case $p in
@@ -49,6 +49,13 @@ arch=$(uname -m)
 case $arch in
     x86_64|x86|aarch64) _jfr="--enable-jfr";;
     *)                  _jfr="--disable-jfr";;
+esac
+
+case $CARCH in
+	x86)	_jarch=i386;;
+	x86_64)	_jarch=amd64;;
+	arm*)	_jarch=aarch32;;
+	*)	_jarch="$CARCH";;
 esac
 
 bash ./configure \
@@ -67,10 +74,10 @@ bash ./configure \
     --enable-headless \
     --with-parallel-jobs=$(nproc) \
     --with-jar=/usr/bin/fastjar \
-    --with-curves="nist+" \
     --with-hotspot-build=default \
     --with-openjdk-src-zip=$PWD/openjdk-$2.tar.xz \
     $_jfr \
+    --with-curves="nist+" \
     --with-jdk-home=$JAVA_HOME
 
 make
