@@ -1,4 +1,5 @@
 cups
+gawk make
 giflib
 krb5
 lcms
