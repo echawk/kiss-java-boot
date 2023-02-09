@@ -62,9 +62,7 @@ make -j1 \
     LOG=debug \
     CFLAGS_WARNINGS_ARE_ERRORS= \
     COMPILER_WARNINGS_FATAL=false \
-    images || true
-
-sleep 1000000000000000000000000000000000000000000000000000000
+    images
 
 mkdir -p "$1/$jdk_prefix"
 cp -a openjdk.build/j2sdk-image/* "$1/$jdk_prefix"
