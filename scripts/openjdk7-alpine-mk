@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# Script to create openjdk7-alpine pkg.
+
+[ $(basename "$PWD") = 'kiss-java-boot' ] || exit 1
+
+rm -rf -- openjdk7-alpine
+
+kiss n openjdk7-alpine
+
+cd openjdk7-alpine
+
+baseurl=https://git.alpinelinux.org/aports/plain/community/openjdk7/
+
+curl https://git.alpinelinux.org/aports/tree/community/openjdk7?h=master \
+    | grep rw \
+    | grep href \
+    | sed "s/<[^>]*>/<>/g" \
+    | cut -d'<' -f6 \
+    | tr -d '>' \
+    | xargs -I{} sh -c "curl -LO $baseurl{}"
+
+mkdir patches/
+mv -f *.patch patches/
+
+echo "https://icedtea.classpath.org/download/source/icedtea-VERSION.tar.xz" > sources
+
+for f in corba hotspot jaxp jaxws jdk langtools openjdk; do
+    echo "https://icedtea.classpath.org/download/drops/icedtea7/VERSION/$f?no-extract" >> sources
+done
+
+du patches/* | cut -f2 >> sources
+
+echo "$(grep '_icedteaver=' APKBUILD | cut -d'=' -f2) 1" > version
