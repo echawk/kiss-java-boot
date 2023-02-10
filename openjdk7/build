@@ -45,12 +45,12 @@ esac
 export ALT_PARALLEL_COMPILE_JOBS="$JOBS"
 export HOTSPOT_BUILD_JOBS="$JOBS"
 # Check for openjdk7, if it's installed, don't bootstrap
-#if [ -e $jdk_prefix ]; then
-#    export JAVA_HOME="$jdk_prefix"
-#else
+if [ -e $jdk_prefix ]; then
+    export JAVA_HOME="$jdk_prefix"
+else
     export JAVA_HOME="/usr/lib/jvm/java-1.5-gcj"
     export BOOTSTRAP=y
-#fi
+fi
 export PATH="$JAVA_HOME/bin:/usr/share/apache-ant/bin:$PATH"
 export DISTRIBUTION_PATCHES=""
 
