@@ -1,4 +1,6 @@
-#!/bin/sh -e
+#!/bin/bash -ex
+
+export DESTDIR="$1"
 
 sed "s/depends=\"jars,test-jar\"/depends=\"jars\"/" build.xml > _
 mv _ build.xml
@@ -14,7 +16,17 @@ mkdir -p tmp
 export HOME="tmp"
 touch tmp/.ant.properties
 
-sh bootstrap.sh -Ddist.dir=boot
+
+# It seems that this package has broken itself, *somehow*.
+# I have never ran into the error that now plagues this package, but
+# now when trying to build, we get permission errors
+sed -E -i "s/<mkdir (dir=...build.dir}.*)/<chmod perm=\"755\" \1/" build.xml
+sed -E -i "s/<mkdir (dir=...build.classes.*)/<chmod perm=\"755\" \1/" build.xml
+sed -E -i "s/<mkdir (dir=...build.lib.*)/<chmod perm=\"755\" \1/" build.xml
+
+sed -E -i "s/(Building Ant .*)/\1\nchmod -R 755 build\\//" bootstrap.sh
+
+./bootstrap.sh -Ddist.dir=boot || :
 
 # Use bootstrapped ant to build jars & dist.
 boot/bin/ant -Ddist.dir="junk" jars
@@ -30,7 +42,7 @@ cp -r junk/* "$1/usr/share/apache-ant"
 
 # Make the new execuatables available in PATH & set ANT_HOME.
 mkdir -p   "$1/etc/profile.d"
-cat <<EOF > "$1/etc/profile.d/apache-ant-bootstrap.sh"
+cat << EOF > "$1/etc/profile.d/apache-ant-bootstrap.sh"
 #!/bin/sh
 export PATH=\$PATH:/usr/share/apache-ant/bin
 export ANT_HOME=\${ANT_HOME:-/usr/share/apache-ant}
