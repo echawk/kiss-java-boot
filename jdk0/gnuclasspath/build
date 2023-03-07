@@ -1,9 +1,11 @@
 #!/bin/sh -e
 
+export DESTDIR="$1"
+
 : > nostrip # just in case
 
 for patch in *.patch; do
-    patch -p1 < $patch
+    patch -p1 < "$patch"
 done
 
 JAVAC=/usr/bin/jikes \
