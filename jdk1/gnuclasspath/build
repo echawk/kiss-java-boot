@@ -1,6 +1,11 @@
 #!/bin/sh -e
 
+export DESTDIR="$1"
 export MAKEINFO=true
+
+# For some reason, gcc13 breaks this package, even though it compiles fine.
+export CC=clang
+export CXX=clang++
 
 : > nostrip # just in case
 
