@@ -2,6 +2,9 @@
 
 export DESTDIR="$1"
 
+export CC=clang
+export CXX=clang++
+
 : > nostrip # just in case
 
 for patch in *.patch; do
