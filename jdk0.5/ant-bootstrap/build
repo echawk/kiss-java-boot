@@ -16,17 +16,7 @@ mkdir -p tmp
 export HOME="tmp"
 touch tmp/.ant.properties
 
-
-# It seems that this package has broken itself, *somehow*.
-# I have never ran into the error that now plagues this package, but
-# now when trying to build, we get permission errors
-sed -E -i "s/<mkdir (dir=...build.dir}.*)/<chmod perm=\"755\" \1/" build.xml
-sed -E -i "s/<mkdir (dir=...build.classes.*)/<chmod perm=\"755\" \1/" build.xml
-sed -E -i "s/<mkdir (dir=...build.lib.*)/<chmod perm=\"755\" \1/" build.xml
-
-sed -E -i "s/(Building Ant .*)/\1\nchmod -R 755 build\\//" bootstrap.sh
-
-./bootstrap.sh -Ddist.dir=boot || :
+sh -x ./bootstrap.sh -Ddist.dir=boot
 
 # Use bootstrapped ant to build jars & dist.
 boot/bin/ant -Ddist.dir="junk" jars
