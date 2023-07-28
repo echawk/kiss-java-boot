@@ -21,9 +21,12 @@ for arg in $(echo $@ | sed 's/ -/#-/g' | tr '#' '\n' | grep -v -e '^-J' | sed "s
     esac
 done
 
+# NOTE: This is *not* part of guix's script.
+JVM_MEM="$(free -m | awk '/^Mem:/ {print int($2 * .33)}')M"
+
 set -x
 $_javacmd \
-    -Xmx2048M \
+    -Xmx${JVM_MEM} \
     -classpath "$CLASSPATH" \
     "org.eclipse.jdt.internal.compiler.batch.Main" \
     -bootclasspath "$bootcp" \
