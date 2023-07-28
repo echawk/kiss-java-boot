@@ -1,4 +1,7 @@
 #!/bin/sh -e
+
+export DESTDIR="$1"
+
 # musl doesn't have the fpu_control header files, so
 # instead we just copy in glibc's header file directly
 # into the source directory
