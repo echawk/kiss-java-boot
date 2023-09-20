@@ -17,7 +17,7 @@ mkdir -p patches
 for p in *.patch; do
     case $p in
         icedtea-*.patch)
-            cp $p patches/
+            cp "$p" patches/
             ;;
         *.patch)
             patch -p1 < "$p"
@@ -67,7 +67,7 @@ for p in patches/*.patch; do
 done
 
 for tarball in *.tar.bz2\?no-extract; do
-    name="$(echo $tarball | cut -d'.' -f1)"
+    name="$(echo "$tarball" | cut -d'.' -f1)"
     case "$name" in
         *) mv "$tarball" "$name-$2.tar.bz2";;
     esac
@@ -89,14 +89,14 @@ done
     --disable-system-sctp \
     --without-rhino \
     --with-jar=/usr/bin/fastjar \
-    --with-openjdk-src-zip=$PWD/openjdk-$2.tar.bz2 \
-    --with-hotspot-src-zip=$PWD/hotspot-$2.tar.bz2 \
-    --with-corba-src-zip=$PWD/corba-$2.tar.bz2 \
-    --with-jaxp-src-zip=$PWD/jaxp-$2.tar.bz2 \
-    --with-jaxws-src-zip=$PWD/jaxws-$2.tar.bz2 \
-    --with-jdk-src-zip=$PWD/jdk-$2.tar.bz2 \
-    --with-langtools-src-zip=$PWD/langtools-$2.tar.bz2 \
-    --with-jdk-home=$JAVA_HOME
+    --with-openjdk-src-zip="$PWD/openjdk-$2.tar.bz2" \
+    --with-hotspot-src-zip="$PWD/hotspot-$2.tar.bz2" \
+    --with-corba-src-zip="$PWD/corba-$2.tar.bz2" \
+    --with-jaxp-src-zip="$PWD/jaxp-$2.tar.bz2" \
+    --with-jaxws-src-zip="$PWD/jaxws-$2.tar.bz2" \
+    --with-jdk-src-zip="$PWD/jdk-$2.tar.bz2" \
+    --with-langtools-src-zip="$PWD/langtools-$2.tar.bz2" \
+    --with-jdk-home="$JAVA_HOME"
 #if [ -z $BOOTSTRAP ]; then
 #    make SHELL=/usr/bin/bash # Commented out for now because of: 'unzip: crc error'
 #    outdir=build

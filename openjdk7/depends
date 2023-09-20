@@ -1,6 +1,6 @@
 ant make
 cups
-gcj6 make
+#gcj6 make
 giflib
 krb5
 lcms
