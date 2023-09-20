@@ -3,7 +3,7 @@
 unzip ./*.zip*
 ls -lah
 
-cat <<EOF > manifest
+cat > manifest << EOF
 Manifest-Version: 1.0
 Main-Class: org.eclipse.jdt.internal.compiler.batch.Main\n
 EOF
