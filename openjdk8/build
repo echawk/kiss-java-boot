@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh -ex
 
 # Not sure why this fixes the check for GCC, but it works...
 export CC=gcc
@@ -11,7 +11,7 @@ mkdir -p patches
 for p in *.patch; do
     case $p in
         icedtea-*.patch)
-            cp $p patches/
+            cp "$p" patches/
             ;;
         *.patch)
             patch -p1 < "$p"
@@ -32,6 +32,9 @@ export JAVA_HOME="/usr/lib/jvm/java-1.7-openjdk"
 export PATH="$JAVA_HOME/bin:/usr/share/apache-ant/bin:$PATH"
 export DISTRIBUTION_PATCHES=""
 
+export CFLAGS="-O3 -fcommon"
+export CXXFLAGS="-O3 -fcommon"
+
 #export EXTRA_CPP_FLAGS="$CXXFLAGS -std=gnu++98 -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
 #export EXTRA_CFLAGS="$CFLAGS -std=gnu++98 -Wno-error -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
 
@@ -43,20 +46,7 @@ for p in patches/*.patch; do
     esac
 done
 
-mv openjdk-git.tar.xz\?no-extract openjdk-$2.tar.xz
-
-arch=$(uname -m)
-case $arch in
-    x86_64|x86|aarch64) _jfr="--enable-jfr";;
-    *)                  _jfr="--disable-jfr";;
-esac
-
-case $CARCH in
-	x86)	_jarch=i386;;
-	x86_64)	_jarch=amd64;;
-	arm*)	_jarch=aarch32;;
-	*)	_jarch="$CARCH";;
-esac
+mv openjdk-git.tar.xz\?no-extract "openjdk-$2.tar.xz"
 
 bash ./configure \
     --prefix="$jdk_prefix" \
@@ -72,17 +62,19 @@ bash ./configure \
     --disable-system-pcsc \
     --disable-system-sctp \
     --enable-headless \
-    --with-parallel-jobs=$(nproc) \
+    --with-openjdk-src-zip="$PWD/openjdk-$2.tar.xz" \
+    --with-parallel-jobs="$(nproc)" \
     --with-jar=/usr/bin/fastjar \
     --with-hotspot-build=default \
-    --with-openjdk-src-zip=$PWD/openjdk-$2.tar.xz \
-    $_jfr \
+    --disable-jfr \
     --with-curves="nist+" \
-    --with-jdk-home=$JAVA_HOME
+    --enable-nss \
+    --with-jdk-home="$JAVA_HOME"
 
-make
+make -j1 JOBS="$(nproc)"
 
 mkdir -p "$1/$jdk_prefix"
 cp -a openjdk.build/j2sdk-image/* "$1/$jdk_prefix"
 cp -a openjdk.build/include       "$1/$jdk_prefix"
-rm -rf "$1/$jdk_prefix/src.zip"
+rm -rf -- "$1/$jdk_prefix/src.zip"
+rm -rf -- "$1/$jdk_prefix/jre/lib/"*/server/classes.jsa
