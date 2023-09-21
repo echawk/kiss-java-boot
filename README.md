@@ -156,13 +156,13 @@ OpenJDK8 (Java 8).
 
 To build & Install:
 ```shell
-export KISS_PATH="$PWD:$KISS_PATH"
-kiss build openjdk7
+#export KISS_PATH="$PWD:$KISS_PATH"
+#kiss build openjdk7
 
 # openjdk7's jar implementation is totally busted.
 # So we rebuild fastjar, and switch to it for jar.
-kiss b fastjar
-kiss a fastjar /usr/lib/jvm/java-1.7-openjdk/bin/jar
+#kiss b fastjar
+#kiss a fastjar /usr/lib/jvm/java-1.7-openjdk/bin/jar
 ```
 
 ## OpenJDK8 (Java 8)
@@ -172,5 +172,6 @@ WIP. See above.
 Useful links:
 * Alpine's buildscript [here](https://git.alpinelinux.org/aports/tree/community/openjdk8/APKBUILD).
 * Void's buildscript [here](https://github.com/void-linux/void-packages/blob/master/srcpkgs/openjdk8/template).
+* Gentoo-Bootstrap repo [here](https://gitlab.com/stikonas/gentoo-bootstrap).
 
 Help is very much appreciated!
