@@ -1,0 +1,24 @@
+#!/bin/sh
+links="
+001_8041658.patch
+002_8043780-pr3368.patch
+003_8078504-pr3094.patch
+004_8087218-pr2740.patch
+005_8158260-pr2991-rh1341258.patch
+007_8207057-pr3613.patch
+008_no_devirt.patch
+009_override-redirect-metacity.patch
+011_pr3607.patch
+012_pr3728.patch
+013_werror.patch
+100_jdk-execinfo.patch
+101_jdk-fix-ipv6-init.patch
+103_hotspot-mask-shift.patch
+104_mips-support.patch
+999-native-no-sysroot.patch
+"
+
+for l in $links; do
+    curl -LO https://raw.githubusercontent.com/void-linux/void-packages/master/srcpkgs/openjdk8/patches/$l
+done
+

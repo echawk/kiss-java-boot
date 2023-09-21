@@ -1,0 +1,13 @@
+diff --git a/jdk/make/Tools.gmk b/jdk/make/Tools.gmk
+index 8a9f127..ec7943a 100644
+--- a/jdk/make/Tools.gmk
++++ b/jdk/make/Tools.gmk
+@@ -28,7 +28,7 @@ $(eval $(call FillCacheFind, $(JDK_TOPDIR)/make/src/classes))
+ 
+ TOOLS_SRC := $(JDK_TOPDIR)/make/src/classes
+ 
+-ifeq ($(findstring $(OPENJDK_TARGET_OS),windows macosx),)
++ifneq ($(findstring $(OPENJDK_TARGET_OS),windows macosx),)
+   TOOLS_SRC += $(JDK_TOPDIR)/src/solaris/classes/sun/awt/X11/generator
+ endif
+ 
