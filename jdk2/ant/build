@@ -4,8 +4,13 @@ sed "s/depends=\"jars,test-jar\"/depends=\"jars\"/" build.xml > _
 mv _ build.xml
 
 export JAVA_HOME="${JAVA_HOME:-/usr/lib/jvm/java-1.5-gcj}"
-export JAVACMD="$JAVA_HOME/bin/java"
-export JAVAC="$JAVA_HOME/bin/javac"
+if [ -d "$JAVA_HOME" ]; then
+    export JAVACMD="$JAVA_HOME/bin/java"
+    export JAVAC="$JAVA_HOME/bin/javac"
+else
+    export JAVACMD="jamvm"
+    export JAVAC="jikes"
+fi
 
 mkdir -p tmp
 export HOME="tmp"
