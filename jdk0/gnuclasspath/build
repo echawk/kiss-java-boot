@@ -5,6 +5,9 @@ export DESTDIR="$1"
 export CC=clang
 export CXX=clang++
 
+export CFLAGS="$CFLAGS -w -Wno-implicit-function-declaration"
+export CXXFLAGS="$CXXFLAGS -w -Wno-implicit-function-declaration"
+
 : > nostrip # just in case
 
 for patch in *.patch; do
