@@ -54,7 +54,8 @@ fi
 export PATH="$JAVA_HOME/bin:/usr/share/apache-ant/bin:$PATH"
 export DISTRIBUTION_PATCHES=""
 
-export CFLAGS="$CFLAGS -fcommon"
+export CFLAGS="$CFLAGS -fcommon -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
+export CFLAGS="$CXXFLAGS -fcommon -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
 export EXTRA_CPP_FLAGS="$CXXFLAGS -std=gnu++98 -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
 export EXTRA_CFLAGS="$CFLAGS -std=gnu++98 -Wno-error -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
 
