@@ -8,4 +8,5 @@ libjpeg-turbo
 libpng
 libxslt
 nss
+patch make
 wget

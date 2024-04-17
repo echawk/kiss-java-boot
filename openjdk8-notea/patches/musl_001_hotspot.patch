@@ -71,19 +71,6 @@ index 10d56d8..b9b2b77 100644
  #include <netdb.h>
  
  inline void* os::thread_local_storage_at(int index) {
-diff --git openjdk/hotspot/src/os_cpu/linux_aarch64/vm/os_linux_aarch64.cpp openjdk/hotspot/src/os_cpu/linux_aarch64/vm/os_linux_aarch64.cpp
-index d2c10e0..20f657f 100644
---- openjdk/hotspot/src/os_cpu/linux_aarch64/vm/os_linux_aarch64.cpp
-+++ openjdk/hotspot/src/os_cpu/linux_aarch64/vm/os_linux_aarch64.cpp
-@@ -75,7 +75,7 @@
- # include <pwd.h>
- # include <poll.h>
- # include <ucontext.h>
--# include <fpu_control.h>
-+# include <linux/types.h>  /* provides __u64 */
- 
- #ifdef BUILTIN_SIM
- #define REG_SP REG_RSP
 diff --git openjdk/hotspot/src/os_cpu/linux_x86/vm/os_linux_x86.cpp openjdk/hotspot/src/os_cpu/linux_x86/vm/os_linux_x86.cpp
 index 38388cb..2505ba8 100644
 --- openjdk/hotspot/src/os_cpu/linux_x86/vm/os_linux_x86.cpp

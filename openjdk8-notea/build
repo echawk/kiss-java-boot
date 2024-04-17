@@ -4,7 +4,15 @@
 export CC=gcc
 export CXX=g++
 
-mkdir -p patches
+# Disable ccache
+export CCACHE_DISABLE=1
+
+# Patch needs to be GNU patch.
+mkdir -p path
+ln -s "$(command -v gpatch)" "$PWD/path/patch"
+
+export PATH="$PWD/path:$PATH"
+
 for p in *.patch; do
     echo "[INFO] Applying $p"
     patch -p1 < "$p"
@@ -29,24 +37,25 @@ export PATH="$JAVA_HOME/bin:/usr/share/apache-ant/bin:$PATH"
 export EXTRA_CPP_FLAGS="-std=gnu++98 -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
 export EXTRA_CFLAGS="-std=gnu++98 -Wno-error -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-strict-overflow"
 
-export CFLAGS="-O3 -fcommon -fno-exceptions"
-export CXXFLAGS="-O3 -fcommon -fno-exceptions"
+export CFLAGS="-O0 -fcommon -fno-exceptions -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
+export CXXFLAGS="-O0 -fcommon -fno-exceptions -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
 
 bash ./configure \
     --disable-ccache \
+    --disable-option-checking \
     --disable-freetype-bundling \
-    --disable-precompiled-headers \
-    --disable-headful \
     --enable-unlimited-crypto \
     --with-boot-jdk="$JDK_HOME" \
-    --with-extra-cflags="$EXTRA_CFLAGS" \
-    --with-extra-cxxflags="$EXTRA_CPP_FLAGS" \
+    --with-extra-cflags="$CFLAGS $EXTRA_CFLAGS" \
+    --with-extra-cxxflags="$CXXFLAGS $EXTRA_CPP_FLAGS" \
     --with-extra-ldflags="$LDFLAGS" \
     --with-jtreg=no \
-    --with-jobs=1 \
-    --with-num-cores=1 \
+    --with-jobs=$(nproc) \
+    --with-num-cores=$(nproc) \
     --with-vendor-name="KISS" \
     --with-milestone="fcs" \
+    --with-freetype-lib=/usr/lib \
+    --with-freetype-include=/usr/include/freetype2 \
     --with-giflib=system \
     --with-zlib=system \
     --disable-jfr
@@ -65,6 +74,7 @@ make -j1 \
     LOG=debug \
     CFLAGS_WARNINGS_ARE_ERRORS= \
     COMPILER_WARNINGS_FATAL=false \
+    GIT=true \
     images
 
 mkdir -p "$1/$jdk_prefix"
