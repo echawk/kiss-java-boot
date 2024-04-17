@@ -1,4 +1,4 @@
-https://github.com/openjdk/jdk8u/archive/refs/tags/jdk8u392-b06.tar.gz
+https://github.com/openjdk/jdk8u/archive/refs/tags/jdkVERSION.tar.gz
 patches/001_8041658.patch
 patches/002_8043780-pr3368.patch
 patches/003_8078504-pr3094.patch
