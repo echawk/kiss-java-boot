@@ -1,5 +1,5 @@
-https://icedtea.classpath.org/download/source/icedtea-3.30.0.tar.xz
-https://icedtea.classpath.org/download/drops/icedtea8/3.30.0/openjdk-git.tar.xz?no-extract
+https://icedtea.classpath.org/download/source/icedtea-VERSION.tar.xz
+https://icedtea.classpath.org/download/drops/icedtea8/VERSION/openjdk-git.tar.xz?no-extract
 patches/icedtea-JDK-6515172_0_revert-jdk8-version.patch
 patches/icedtea-JDK-6515172_1_apply-jdk9-version.patch
 patches/icedtea-autoconf-config.patch

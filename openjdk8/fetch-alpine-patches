@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#curl -s https://git.alpinelinux.org/aports/tree/community/openjdk8?h=master
+mkdir -p patches
+cd patches
+curl -s https://git.alpinelinux.org/aports/plain/community/openjdk8/APKBUILD \
+	| grep -E "^	.*\.patch$" \
+	| xargs -I{} \
+	sh -c "curl -LO https://git.alpinelinux.org/aports/plain/community/openjdk8/{}"
+
