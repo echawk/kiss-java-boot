@@ -15,5 +15,5 @@ patches/icedtea-jdk-execinfo.patch
 patches/icedtea-jdk-fix-ipv6-init.patch
 patches/icedtea-jdk-fix-libjvm-load.patch
 patches/icedtea-jdk-implicit.patch
-patches/icedtea-jdk-includes.patch
+#patches/icedtea-jdk-includes.patch
 patches/icedtea-jdk-musl.patch
