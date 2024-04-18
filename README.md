@@ -1,3 +1,6 @@
+**NOTE**: This project is on an indefinite hiatus. I will fix any reported bugs,
+but I am taking a break from actually attempting to continue the bootstrap chain. If someone would like to continue the work here, please make a PR, or let me know about the work so I can point people in the right direction. But, as it stands, this repo is still the only option for bootstrapping up to Java 7 on KISS Linux.
+
 This is a repo that aims to bootstrap Java on KISS Linux, without using precompiled
 binaries.
 
@@ -173,5 +176,7 @@ Useful links:
 * Alpine's buildscript [here](https://git.alpinelinux.org/aports/tree/community/openjdk8/APKBUILD).
 * Void's buildscript [here](https://github.com/void-linux/void-packages/blob/master/srcpkgs/openjdk8/template).
 * Gentoo-Bootstrap repo [here](https://gitlab.com/stikonas/gentoo-bootstrap).
+
+https://www.reddit.com/r/Gentoo/comments/h96zuq/openjdk_or_icedtea_on_gentoo_musl/
 
 Help is very much appreciated!

@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+# TODO: make this build script much cleaner...
+
 if kiss list gcj6; then
     echo "Remove gcj6 before continuing, else suffer a circular dependency."
     exit 1
