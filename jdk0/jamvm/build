@@ -2,6 +2,9 @@
 
 export DESTDIR="$1"
 
+# Set the CFLAGS so that gcc > 14 doesn't complain.
+export CFLAGS="$CFLAGS -D_GNU_SOURCE -Wno-incompatible-pointer-types"
+
 # musl doesn't have the fpu_control header files, so
 # instead we just copy in glibc's header file directly
 # into the source directory
