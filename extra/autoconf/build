@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export DESTDIR="$1"
+
 ./configure \
     --prefix=/usr
     #--program-suffix="$(echo $2 | tr -d '.')"
