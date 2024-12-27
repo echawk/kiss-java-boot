@@ -2,6 +2,8 @@
 
 export DESTDIR="$1"
 
+export CFLAGS="$CFLAGS -D_GNU_SOURCE"
+
 # musl doesn't have the fpu_control header files, so
 # instead we just copy in glibc's header file directly
 # into the source directory
