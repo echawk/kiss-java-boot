@@ -1,2 +1,1 @@
-git+https://git.savannah.gnu.org/git/classpath.git
-patches/remove-call-to-free.patch
+git+https://git.savannah.gnu.org/git/classpath.git#e7c13ee0cf2005206fbec0eca677f8cf66d5a103

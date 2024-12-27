@@ -9,10 +9,6 @@ export CXX=clang++
 
 : > nostrip # just in case
 
-for patch in *.patch; do
-    patch -p1 < "$patch"
-done
-
 find . -name *.java | xargs sed -i "s/@Override//g"
 
 autoreconf -vif
